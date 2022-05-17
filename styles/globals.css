@@ -1,0 +1,191 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.drivdetailsbx {
+  width: 60%;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  justify-content: space-between;
+  margin-left: 10px;
+}
+
+.setpricebtn {
+  padding: 3px 10px 3px 10px !important;
+}
+
+.newbookingbtn {
+  padding: 3px 7px 3px 3px !important;
+
+  font-size: 12px !important;
+}
+
+.autocomp .MuiOutlinedInput-root {
+  padding: 2px;
+}
+
+.autocomp1 .MuiOutlinedInput-root {
+  padding: 0px;
+}
+
+.autocomp1 .MuiOutlinedInput-root {
+  padding: 0px;
+}
+
+.autocomp1 input {
+  padding: 5.5px 4px 6.5px 18px !important;
+}
+
+.autocomp1 label {
+  top: -8px !important;
+}
+
+.autocomp .MuiTextField-root {
+  padding: 0px;
+}
+
+.addcontrol {
+  height: 38px !important;
+  width: 38px !important;
+  padding: 8px !important;
+  font-weight: bolder !important;
+  border: 1px solid lightgray !important;
+  font-size: 20px !important;
+  border-radius: 0px 5px 5px 0px !important;
+}
+
+#datepickerdiv {
+  width: 100% !important;
+}
+
+#datepickerdiv .MuiOutlinedInput-input {
+  padding: 9.5px 14px !important;
+}
+
+#invoiceTable th {
+  text-align: center;
+  border-right: 1px solid gray;
+  border-bottom: 1px solid gray;
+}
+
+#invoicetbody td {
+  border-bottom: none !important;
+  border-right: 1px solid gray;
+}
+
+#invoicetbody tr:last-child td:nth-last-child(-n + 2) {
+  border-top: 1px solid gray;
+}
+
+#drawer-div .MuiDrawer-paper {
+  width: 250px !important;
+}
+
+/* for Mobile Menu */
+
+#menu-List .MuiButtonBase-root {
+  display: flex !important;
+  padding: 5px 16px 5px 16px !important;
+}
+
+#Collapse-List .MuiButtonBase-root {
+  padding: 5px 16px 5px 30px !important;
+}
+
+/* for desktop menu */
+
+#desktop-submenu {
+  display: list-item !important;
+  padding: 5px 16px 5px 16px !important;
+}
+
+#demo-positioned-advmenu .MuiPaper-root {
+  position: absolute !important;
+  bottom: auto !important;
+  right: 50px !important;
+  top: auto !important;
+  left: auto !important;
+}
+
+#suraj3d {
+  text-shadow: -2px -1px 1px #efede3, 0px 1px 0 #2e2e2e, 0px 2px 0 #2c2c2c,
+    0px 3px 0 #2a2a2a, 0px 4px 0 #282828, 0px 5px 0 #262626, 0px 6px 0 #242424,
+    0px 7px 0 #222, 0px 8px 0 #202020, 0px 9px 0 #1e1e1e, 0px 10px 0 #1c1c1c,
+    0px 11px 0 #1a1a1a, 0px 12px 0 #181818, 0px 13px 0 #161616,
+    0px 14px 0 #141414, 0px 15px 0 #121212, 2px 20px 5px rgb(0 0 0 / 90%),
+    5px 23px 5px rgb(0 0 0 / 30%), 8px 27px 8px rgb(0 0 0 / 50%),
+    8px 28px 35px rgb(0 0 0 / 90%);
+}
+
+.cloak__wrapper {
+  /* position: fixed; */
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+}
+
+.cloak__container {
+  /* height: 250vmax; */
+  width: 250vmax;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cloak {
+  animation: swing var(--speed) infinite alternate-reverse ease-in-out;
+  /* height: 100%; */
+  width: 100%;
+  transform-origin: 50% 30%;
+  transform: rotate(calc(var(--swing-x) * -0.25deg));
+  background: radial-gradient(40% 40% at 50% 42%, transparent, #000 35%);
+}
+
+.info {
+  text-align: center;
+  line-height: 1.5;
+  max-width: clamp(16rem, 90vmin, 25rem);
+}
+
+.textboxpayout input {
+  height: 8px;
+}
+
+.removepadding .MuiInputBase-root {
+  padding: 0px !important;
+}
+
+.padremove .MuiFormControl-root{
+padding: 0px;
+}
+
+.bookngdte input {
+    padding: 7.5px 14px !important;
+}
+
+.bookngdte .MuiFormControl-root{
+padding: 0px !important;
+}
+
+@media only screen and (min-width: 768px) {
+  #surjid {
+    width: 70%;
+  }
+}
