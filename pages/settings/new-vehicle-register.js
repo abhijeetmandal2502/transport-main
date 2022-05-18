@@ -37,7 +37,7 @@ const NewVehicleRegister = ({ vehicleType }) => {
   const { data: session } = useSession();
   const token = session.user.access_token;
 
-  const url = '/loading/vehicle-register';
+  const url = '/settings/vehicle-register';
   const {
     register,
     formState: { errors },

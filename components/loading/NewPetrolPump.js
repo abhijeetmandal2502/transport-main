@@ -60,7 +60,7 @@ const NewPetrolPump = (props) => {
       enqueueSnackbar(message, {
         variant: 'success',
       });
-      router.push('/loading/petrol-pump-register');
+      router.push('/settings/petrol-pump-register');
     } else {
       var message = result.errors[0];
       result.errors.map((item) => {
@@ -69,7 +69,7 @@ const NewPetrolPump = (props) => {
     }
   };
 
-  const url = '/loading/petrol-pump-register';
+  const url = '/settings/petrol-pump-register';
 
   return (
     <div>

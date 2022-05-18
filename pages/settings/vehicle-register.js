@@ -74,7 +74,7 @@ const VehicleRegister = ({ data }) => {
 
 
 
-  const url = '/loading/new-vehicle-register';
+  const url = '/settings/new-vehicle-register';
 
   const column = [
     '#',

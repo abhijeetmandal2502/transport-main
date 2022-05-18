@@ -64,7 +64,7 @@ const DriverRegister = (props) => {
     setRowsData(data);
   };
 
-  const url = '/loading/new-driver';
+  const url = '/settings/new-driver';
   return (
     <div>
       <Container

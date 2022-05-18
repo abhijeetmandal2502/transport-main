@@ -59,7 +59,7 @@ const PetrolPump = (props) => {
     setRowsData(data);
   };
 
-  const url = '/loading/add-new-petrol-pump';
+  const url = '/settings/add-new-petrol-pump';
   return (
     <div>
       <Container

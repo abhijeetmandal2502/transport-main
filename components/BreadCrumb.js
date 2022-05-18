@@ -34,7 +34,7 @@ const BreadCrumb = (props) => {
       variant: 'error',
       // autoHideDuration: 3000,
     });
-    router.push('/');
+    // router.push('/');
   }
 
   return (
