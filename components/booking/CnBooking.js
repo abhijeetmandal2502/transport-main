@@ -94,13 +94,7 @@ const CNBooking = (props) => {
     {
       field: 'status',
       headerName: 'Status',
-      width: '150',
-      editable: true,
-    },
-    {
-      field: 'action',
-      headerName: 'Action',
-      width: '350',
+      width: '300',
       editable: true,
       renderCell: (params) => {
         const index = params.id - 1;
@@ -174,6 +168,25 @@ const CNBooking = (props) => {
             </Link>
           );
         }
+      },
+    },
+
+    //  status != 'cancel' ? <UpdateButton url={`/edit/edit-lr/${cnNumber}`} key={i} /> : ''
+    {
+      field: 'action',
+      headerName: 'Action',
+      width: '150',
+      editable: true,
+      renderCell: (params) => {
+        const index = params.id - 1;
+        return finalRows[index].status != 'cancel' ? (
+          <UpdateButton
+            url={`/edit/edit-lr/${finalRows[index].lr_no}`}
+            // key={i}
+          />
+        ) : (
+          ''
+        );
       },
     },
   ];
@@ -255,7 +268,7 @@ const CNBooking = (props) => {
                 columns={finalColumns}
                 pageSize={10}
                 rowsPerPageOptions={[10]}
-                checkboxSelection
+                // checkboxSelection
                 onSelectionModelChange={(ids) => {
                   // setChecked(ids);
                 }}
