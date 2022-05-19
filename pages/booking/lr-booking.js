@@ -4,14 +4,12 @@ import { useSession, getSession } from 'next-auth/react';
 import BreadCrumb from '../../components/BreadCrumb';
 import { Container } from '@mui/material';
 import { capitalize } from '@material-ui/core';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 const LRBooking = ({ data, totalCount }) => {
   const { data: session } = useSession();
   const token = session.user.access_token;
 
-  // 
-
-  const [totalPages, setTotalPages] = useState(Math.ceil(totalCount / 10));
   const [rows, setRows] = useState(data);
   const [slug, setSlug] = useState('');
 
@@ -33,32 +31,14 @@ const LRBooking = ({ data, totalCount }) => {
     var data = [];
     if (newData.status == 'success') {
       data = newData.data;
-    }
-    else {
-      alert('No Record Found ')
+    } else {
+      alert('No Record Found ');
     }
 
     setRows(data);
   };
 
-  const searchData = (searchingElement) => {
-    if (searchingElement.type === 'pagination') {
-      setSlug(`/${searchingElement.key}`);
-    } else {
-      setSlug(`/1/${searchingElement.key}`);
-    }
-  };
-  const column = [
-    '#',
-    'CN No.',
-    'Consignor',
-    'Consignee',
-    'From',
-    'To',
-    'Amount',
-    'Status',
-    'Action'
-  ];
+  // console.log('check booking row', rows);
 
   return (
     <div>
@@ -72,13 +52,7 @@ const LRBooking = ({ data, totalCount }) => {
         <BreadCrumb />
       </Container>
 
-      <CNBooking
-        column={column}
-        rows={rows}
-        setSlug={setSlug}
-        searchData={searchData}
-        totalPages={totalPages}
-      />
+      <CNBooking rows={rows} setSlug={setSlug} />
     </div>
   );
 };
@@ -103,12 +77,12 @@ export async function getServerSideProps(ctx) {
       var totalCount = 0;
       if (res.status === 'success') {
         var data = res.data;
-        totalCount = res.totalCount
+        totalCount = res.totalCount;
       } else {
         var data = [];
       }
     } catch (err) {
-
+      console.log(err);
       var data = [];
     }
   } else {

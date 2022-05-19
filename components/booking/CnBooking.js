@@ -6,110 +6,215 @@ import {
   TableRow,
   TableCell,
   TableBody,
-
+  TablePagination,
+  InputLabel,
   Typography,
   Grid,
-
+  Input,
+  TextField,
+  FormControl,
+  InputAdornment,
   Divider,
-
+  PaginationItem,
   Pagination,
   Stack,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Box, Button, Container } from '@mui/material';
 import {
-
+  AccountCircle,
+  Add,
+  ArrowLeft,
+  ArrowRight,
+  CheckBoxOutlineBlank,
+  DoubleArrow,
+  Home,
+  HomeOutlined,
   Print,
-
+  Search,
 } from '@material-ui/icons';
-
+import { green, red } from '@material-ui/core/colors';
+import Link from 'next/link';
 import SearchComponent from './SearchComponent';
-
+import { capitalize } from '@material-ui/core';
 import BtnNewBooking from '../buttons/NewBooking';
 import UpdateButton from '../buttons/UpdateButton';
-
+import { useRouter } from 'next/router';
+import dateFormat, { masks } from 'dateformat';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import EditIcon from '@mui/icons-material/Edit';
 
 const CNBooking = (props) => {
-  const { column, rows, setSlug, searchData, totalPages } = props;
+  const { rows, setSlug } = props;
 
   const [filteredRows, setFilteredRows] = useState(rows);
+  const [checked, setChecked] = useState([]);
   const [page, setPage] = useState(1);
+  const finalRows = [];
+
+  let componentToShow;
+  const finalColumns = [
+    { field: 'id', headerName: '#' },
+    {
+      field: 'lr_no',
+      headerName: 'Cn No',
+      width: 200,
+      editable: true,
+    },
+    {
+      field: 'consignor',
+      headerName: 'Consignor ',
+      width: 300,
+      editable: true,
+    },
+    {
+      field: 'consignee',
+      headerName: 'Consignee ',
+      width: 300,
+      editable: true,
+    },
+    {
+      field: 'from_location',
+      headerName: 'From',
+      width: 150,
+      editable: true,
+    },
+    {
+      field: 'to_location',
+      headerName: 'To',
+      width: 150,
+      editable: true,
+    },
+    {
+      field: 'amount',
+      headerName: 'Amount',
+      width: '100',
+      editable: true,
+    },
+    {
+      field: 'status',
+      headerName: 'Status',
+      width: '150',
+      editable: true,
+    },
+    {
+      field: 'action',
+      headerName: 'Action',
+      width: '350',
+      editable: true,
+      renderCell: (params) => {
+        const index = params.id - 1;
+
+        let slug;
+        let title;
+        switch (finalRows[index].status) {
+          case 'fresh':
+            title = 'Vehicle Assign';
+            slug = '/booking/vehicle-assignment';
+            break;
+          case 'vehicle-assign':
+            title = 'Generate New Bilty';
+            slug = `/loading/generated-new-bilty/${finalRows[index].lr_no}`;
+            break;
+          case 'loading':
+            title = 'Unload Vehicle';
+            slug = `/account/unload-vehicle/${finalRows[index].lr_no}`;
+            break;
+          case 'unload':
+            title = 'LR Booking';
+            slug = '/booking/lr-booking';
+            break;
+          case 'closed':
+            title = 'Close';
+            slug = '/';
+            break;
+
+          default:
+            break;
+        }
+
+        if (finalRows[index].status.toLowerCase() == 'loading') {
+          return (
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Link href="/loading/generated-bilty">
+                <Button
+                  variant="contained"
+                  size="small"
+                  // startIcon={<EditIcon />}
+                  color="secondary"
+                  sx={{ marginRight: '20px' }}
+                >
+                  Print Bilty
+                </Button>
+              </Link>
+
+              <Link href={`/account/unload-vehicle/${finalRows[index].lr_no}`}>
+                <Button
+                  variant="contained"
+                  size="small"
+                  // startIcon={<EditIcon />}
+                  color="secondary"
+                >
+                  Unload Vehicle
+                </Button>
+              </Link>
+            </Box>
+          );
+        } else {
+          return (
+            <Link href={slug}>
+              <Button
+                variant="contained"
+                size="small"
+                // startIcon={<EditIcon />}
+                color="secondary"
+              >
+                {title}
+              </Button>
+            </Link>
+          );
+        }
+      },
+    },
+  ];
+
+  rows.map((item, i) => {
+    // const bookingDate = dateFormat(item.booking_date, 'dd/mm/yyyy');
+    finalRows.push({
+      id: i + 1,
+      lr_no: item.lr_id,
+      consignor: item.consignor_name,
+      consignee: item.consignee_name,
+      from_location: item.from_location,
+      to_location: item.to_location,
+      amount: item.amount,
+      status: item.status,
+      action: (
+        <Button
+          variant="contained"
+          size="small"
+          startIcon={<EditIcon />}
+          color="secondary"
+        >
+          ok
+        </Button>
+      ),
+      // butonText(item.status),
+    });
+  });
+  // console.log('ch3ckmapitem', finalRows);
 
   useEffect(() => {
-    setFilteredRows(rows);
+    // setFilteredRows(rows);
   }, [rows]);
 
   const columns = [];
 
-  for (var key in column) {
-    columns.push({ id: key, label: column[key] });
-  }
-
   const rowsData = [];
 
-  var i = (page * 10 - 10) > 0 ? (page * 10 - 10 + 1) : 1;
-  // alert(page)
-
   var icon = '';
-  filteredRows.map((item) => {
-    const cnNumber = item.lr_id;
-    const consignor = item.consignor_name;
-    const consignee = item.consignee_name;
-    const from = item.from_location;
-    const to = item.to_location;
-    const amount = item.amount;
-    const status = item.status;
-    const print = item.print;
-    if (print === 'yes') {
-      icon = <Print />;
-    } else {
-      icon = 'NA';
-    }
-
-    rowsData.push([
-      i + '.',
-      cnNumber,
-      consignor,
-      consignee,
-      from,
-      to,
-      amount,
-      status,
-      status != 'cancel' ? <UpdateButton url={`/edit/edit-lr/${cnNumber}`} key={i} /> : ''
-
-    ]);
-
-    i++;
-  });
 
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const handleChangePage = (event, newPage) => {
-
-
-    searchData({ key: newPage, type: 'pagination' });
-    setSlug(`/${newPage}`);
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
-  const searchString = (searchValue) => {
-    const filteredRows = rows.filter((row) => {
-      return row.lr_id.toLowerCase().includes(searchValue.toLowerCase());
-    });
-    setFilteredRows(filteredRows);
-  };
-
-  const searchCN = (cn) => {
-    searchData(cn);
-  };
-  function handleChange(event, value) {
-    setPage(value);
-    searchData({ key: value, type: 'pagination' });
-  }
 
   return (
     <div>
@@ -134,96 +239,32 @@ const CNBooking = (props) => {
                 justifyContent: { xs: 'flex-start', sm: 'flex-end' },
               }}
             >
-
-              <BtnNewBooking name={'New Booking'} url={'/booking/new-booking'} />
+              <BtnNewBooking
+                name={'New Booking'}
+                url={'/booking/new-booking'}
+              />
             </Box>
           </Grid>
         </Grid>
 
         <Paper sx={{ width: '100%', overflow: 'hidden' }} elevation={5}>
-          <Grid container spacing={2}>
-            <Grid item style={{ margin: 10 }}>
-              {/* search component */}
-
-              <SearchComponent
-                text={'Search CN Number'}
-                searchString={searchString}
-                searchCN={searchCN}
+          {finalRows.length > 0 ? (
+            <div style={{ height: '550px', width: '100%' }}>
+              <DataGrid
+                rows={finalRows}
+                columns={finalColumns}
+                pageSize={10}
+                rowsPerPageOptions={[10]}
+                checkboxSelection
+                onSelectionModelChange={(ids) => {
+                  // setChecked(ids);
+                }}
+                components={{ Toolbar: GridToolbar }}
               />
-            </Grid>
-          </Grid>
-
-          <TableContainer sx={{ maxHeight: 440 }}>
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableRow>
-                  {columns.map((item, key) => (
-                    <TableCell
-                      key={key}
-                      align={item.align}
-                      style={{
-                        minWidth: column.minWidth,
-                        fontWeight: 'bold',
-                        paddingLeft: 10,
-                        textAlign: 'center',
-                        paddingRight: 10,
-                        border: '1px solid lightgray',
-                      }}
-                    >
-                      {item.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rowsData
-                  // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, key) => {
-                    return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={key}
-                      >
-                        {columns.map((column, key) => {
-                          const value = row[column.id];
-                          // 
-                          return (
-                            <TableCell
-                              style={{ border: '1px solid lightgray' }}
-                              key={key}
-                              align={column.align}
-
-                            >
-                              {(column.format && typeof value === 'number')
-                                ? column.format(value)
-                                : value}
-                            </TableCell>
-                          );
-                        })}
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-          <Divider style={{ marginBottom: 15 }} />
-          {/* pagination */}
-          <Stack spacing={2} style={{ marginBottom: 15 }}>
-            <Pagination
-              style={{
-                display: 'flex',
-                justifyContent: 'end',
-                flexWrap: 'wrap',
-              }}
-              color="primary"
-              count={totalPages}
-              page={page}
-              onChange={handleChange}
-            />
-          </Stack>
+            </div>
+          ) : (
+            <div></div>
+          )}
         </Paper>
       </Container>
     </div>
