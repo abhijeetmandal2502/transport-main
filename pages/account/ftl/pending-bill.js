@@ -180,9 +180,14 @@ const FTLConsignorpayment = ({ data }) => {
                     <Typography variant="h6" component="h4" sx={{ fontWeight: 'bold' }}>
                         Pending LR List For Billing
                     </Typography>
-                    {
-                        showTable === false ? <Button variant="contained" color="secondary" size="small" style={{ border: "1px solid  #146ec7" }} onClick={() => generateBill()} >Genrate Bill</Button> : <Button variant="contained" color="secondary" size="small" style={{ border: "1px solid  #146ec7" }} onClick={() => setShowTable(!showTable)} >Back</Button>
-                    }
+                    <div>
+                        <Button variant="contained" color="primary" size="small" style={{ border: "1px solid  #146ec7", marginRight: 5 }} onClick={() => router.push("/account/ftl/processing-bill")}  >Processed Bills</Button>
+                        <Button variant="contained" color="success" size="small" style={{ border: "1px solid  #146ec7", marginRight: 5 }} onClick={() => router.push("/account/ftl/approve-bill")}  >Approved Bills</Button>
+                        {
+                            showTable === false ? <Button variant="contained" color="secondary" size="small" style={{ border: "1px solid  #146ec7" }} onClick={() => generateBill()} >Genrate Bill</Button> : <Button variant="contained" color="secondary" size="small" style={{ border: "1px solid  #146ec7" }} onClick={() => setShowTable(!showTable)} >Back</Button>
+                        }
+                    </div>
+
 
                 </Grid>
 

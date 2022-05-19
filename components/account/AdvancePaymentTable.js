@@ -54,9 +54,6 @@ const AdvancePaymentTable = (props) => {
 
   const [page, setPage] = useState(2);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  // ctrl
-  // const [anchorEl, setAnchorEl] = React.useState(null);
-  // const open = Boolean(anchorEl);
 
   const [open, setOpen] = React.useState(false);
   const [advPay, setAdvPay] = useState();
@@ -143,7 +140,6 @@ const AdvancePaymentTable = (props) => {
     'From Location',
     'To Location',
     'Vehicle No',
-    'Vehicle Type',
     'Driver Name',
     'Driver Contact No',
     '  Add Bilty  ',
@@ -167,10 +163,8 @@ const AdvancePaymentTable = (props) => {
           item.from_location,
           item.to_location,
           item.vehicle_no.toUpperCase(),
-          item.vehicle_type,
           item.driver_name,
           item.driver_mobile,
-
           <NAP id={item.lr_id} key={i} />,
           item.is_advance_done == 'no' ? (
             '-----'
