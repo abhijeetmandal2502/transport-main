@@ -17,27 +17,29 @@ const ViewBilty = () => {
 
   try {
     useEffect(() => {
-      fetchData()
-    }, [lrId])
+      fetchData();
+    }, [lrId]);
 
     const fetchData = async () => {
-      const req = await fetch(`${process.env.apiUrl}/lr-booking/single/${lrId}`, {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
+      const req = await fetch(
+        `${process.env.apiUrl}/lr-booking/single/${lrId}`,
+        {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
         }
-      })
+      );
 
       const res = await req.json();
       if (res.status === 'success') {
         const biltyData = res.data;
         setBilties(biltyData[0].bilties);
       }
-    }
-
+    };
   } catch (error) {
-    console.log(error)
+    // console.log(error)
   }
 
   return (
@@ -49,4 +51,3 @@ const ViewBilty = () => {
 };
 
 export default ViewBilty;
-
