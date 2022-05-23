@@ -7,7 +7,7 @@ export default NextAuth({
     CredentialsProvider({
       async authorize(credentials) {
         const response = await fetch(
-          'https://transport-backend.thenwg.xyz/api/login',
+          `${process.env.apiUrl}/login`,
           {
             method: 'post',
             headers: {
