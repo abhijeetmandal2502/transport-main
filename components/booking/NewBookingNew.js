@@ -297,8 +297,8 @@ const NewBookingNew = (props) => {
                     number.map((index) => {
 
                         var key = originState[index] && originState[index];
-                        const from = origins[key] && origins[key]['from'];
-                        const to = origins[key] && origins[key]['to'];
+                        const from = origins[key] ? origins[key]['from'] : [];
+                        const to = origins[key] ? origins[key]['to'] : [];
 
 
                         return (
