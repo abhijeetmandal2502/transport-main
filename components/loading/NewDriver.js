@@ -33,7 +33,7 @@ const NewDriver = (props) => {
   const { data: session } = useSession();
   const token = session.user.access_token;
 
-  const url = '/loading/driver-register';
+  const url = '/settings/driver-register';
   const vehileOwnership = [{ label: 'India' }, { label: 'Nepal' }];
   const {
     register,

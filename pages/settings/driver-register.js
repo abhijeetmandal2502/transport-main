@@ -19,6 +19,7 @@ const driverRegister = ({ result }) => {
         <BreadCrumb />
       </Container>
       <DriverRegister data={result} />
+
     </div>
   );
 };
