@@ -148,10 +148,15 @@ const NewBookingNew = (props) => {
 
     })
 
+    console.log("consignor details :", consignorDetails)
+
     // check for calling consignor key
     const callConsignor = async (value, index) => {
 
         const cons_id = value && value.cons_id;
+
+
+
         var locationArr = {}
         // alert(index)
         setOriginState({ ...originState, [index]: cons_id })
@@ -169,6 +174,8 @@ const NewBookingNew = (props) => {
             );
 
             const res = await req.json();
+
+            console.log("consignor id :", res)
 
             if (res.status === 'success') {
                 const data = res.data

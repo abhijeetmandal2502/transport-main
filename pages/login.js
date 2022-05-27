@@ -22,11 +22,20 @@ import Loader from "../components/utilities/Loader";
 import logo1 from "../public/TA_sidcul__black_-removebg-preview.png";
 import { useSnackbar } from "notistack";
 import { useForm } from "react-hook-form";
-import { fetchData } from "next-auth/client/_utils";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+
+const schema = yup.object({
+  role: yup.string().required('Select role for login'),
+  userid: yup.string().required('userid is required Field'),
+  userid: yup.string().required('userid is required Field'),
+}).required();
+
+
 // end
 
 const Login = () => {
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
 
   const linkStyle = { marginTop: 10 };
   const avtarStyle = { backgroundColor: "#6881dc" };

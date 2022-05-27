@@ -36,13 +36,15 @@ import {
 const NewAdvancePaymentForm = (props) => {
   const router = useRouter();
 
-  const { petrolPumpData } = props;
+  const { petrolPumpData, price } = props;
   const [paymentChequeEnable, setPaymentChequeEnable] = React.useState(false);
   const [transIdEnable, setTransIdEnable] = React.useState(false);
   const lrNo = router.query.id;
 
   const [showPetrolPart, setShowPetrolPart] = useState(true);
   const [showAmountPart, setShowAmountPart] = useState(true);
+  const [pPrice, setPprice] = useState('');
+  const [cPrice, setCprice] = useState('');
 
   const paymentMode = [
     { label: 'Cash' },
@@ -66,20 +68,13 @@ const NewAdvancePaymentForm = (props) => {
   const { data: session } = useSession();
   const token = session.user.access_token;
 
-
-  //   form
-
-  const {
-    register,
-    resetField,
-    formState: { errors },
-    handleSubmit,
-  } = useForm();
+  const { register, resetField, formState: { errors }, handleSubmit } = useForm();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [modalData, setModalData] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState('');
+  const [showButton, setShowButton] = useState(true)
 
   const onSubmit = async (data) => {
 
@@ -144,6 +139,18 @@ const NewAdvancePaymentForm = (props) => {
     // 
   };
 
+  const checkBalance = () => {
+    // console.log(pPrice + ' ' + typeof cPrice)
+    if ((parseFloat(pPrice) + parseFloat(cPrice)) > parseFloat(price)) {
+      setShowButton(!showButton)
+      alert(`Estimated Amount is ${price} that is exceeded`)
+    }
+    else {
+      setShowButton(true)
+    }
+  }
+
+
   // end of form
   return (
     <div>
@@ -202,10 +209,19 @@ const NewAdvancePaymentForm = (props) => {
                     display: 'block',
                     paddingLeft: 16,
                     paddingRight: 16,
-                    paddingTop: 16,
+                    paddingTop: 3,
                     paddingBottom: 16,
                   }}
                 >
+                  <Box style={{
+                    marginBottom: 8,
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}>
+                    <Typography style={{ fontWeight: 700, color: 'darkred' }} >Estimeted Price - {price}</Typography>
+
+                  </Box>
                   <Box
                     style={{
                       marginBottom: 8,
@@ -302,13 +318,17 @@ const NewAdvancePaymentForm = (props) => {
                         <OutlinedInput
                           type="number"
                           placeholder="Enter Amount"
+                          value={pPrice}
                           {...register('petrol_amount', {
                             required: showPetrolPart ? true : false,
                           })}
-                          onChange={(event) =>
+                          onChange={(event) => {
                             event.target.value < 0
                               ? (event.target.value = 0)
                               : event.target.value
+                            setPprice(event.target.value)
+                            checkBalance()
+                          }
                           }
                           style={{
                             width: '-webkit-fill-available',
@@ -493,13 +513,17 @@ const NewAdvancePaymentForm = (props) => {
                         <OutlinedInput
                           placeholder="Enter Amount"
                           type="number"
+                          value={cPrice}
                           {...register('actual_amt', {
                             required: showAmountPart ? true : false,
                           })}
-                          onChange={(event) =>
+                          onChange={(event) => {
                             event.target.value < 0
                               ? (event.target.value = 0)
                               : event.target.value
+                            setCprice(event.target.value)
+                            checkBalance()
+                          }
                           }
                           style={{
                             width: '-webkit-fill-available',
@@ -693,14 +717,17 @@ const NewAdvancePaymentForm = (props) => {
                     display: 'flex',
                     justifyContent: 'center',
                   }}
-                >
-                  <Button
-                    variant="outlined"
-                    type="submit"
-                    style={{ background: '#28a745', color: 'white' }}
-                  >
-                    Confirmed
-                  </Button>
+                >{
+                    showButton && <Button
+                      variant="outlined"
+                      type="submit"
+                      style={{ background: '#28a745', color: 'white' }}
+
+                    >
+                      Confirmed
+                    </Button>
+                  }
+
                 </Box>
               </Paper>
             </Container>
