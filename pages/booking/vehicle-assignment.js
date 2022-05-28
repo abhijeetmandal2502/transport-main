@@ -5,6 +5,13 @@ import BreadCrumb from '../../components/BreadCrumb';
 import TableComponent from '../../components/TableComponent';
 import Link from 'next/link';
 import { useSession, getSession } from 'next-auth/react';
+import { DataGrid } from '@mui/x-data-grid';
+import DatGridComponent from '../../components/DatGridComponent';
+import { LocalShipping } from '@material-ui/icons';
+
+
+
+
 const VehicleAssignment = ({ data }) => {
   const [rowsData, setRowsData] = useState(data);
 
@@ -12,51 +19,76 @@ const VehicleAssignment = ({ data }) => {
     setRowsData(data);
   }, [data]);
 
-  // find needed data from rowsData
-
-
   const rows = [];
-  var i = 1;
-  rowsData.map((item) => {
-    rows.push([
-      i + '.',
-      item.lr_id,
-      item.consignor_name,
-      item.consignee_name,
-      item.from_location,
-      item.to_location,
-      assignButton(item.lr_id),
-    ]);
-    i++;
-  });
-  const totalPages = Math.ceil(rows.length / 10);
 
-  const column = [
-    '#',
-    'CN No.',
-    'consignor',
-    'Consignee',
-    'From',
-    'To',
-    'Action',
+  const columns = [
+    {
+      field: 'id',
+      headerName: 'ID',
+      width: 60,
+    },
+    {
+      field: 'cn',
+      headerName: 'LR No.',
+      width: 150,
+      editable: true,
+    },
+    {
+      field: 'consignee',
+      headerName: 'Consignee',
+      width: 300,
+      editable: true,
+    },
+    {
+      field: 'consignor',
+      headerName: 'Consignor',
+      width: 300,
+      editable: true,
+    },
+    {
+      field: 'from',
+      headerName: 'From',
+      width: 110,
+      editable: true,
+    },
+    {
+      field: 'to',
+      headerName: 'To',
+      width: 110,
+      editable: true,
+    },
+    {
+      field: 'redirect',
+      headerName: 'Action',
+      width: 110,
+      editable: true,
+      renderCell: (params, i) => {
+        var slug = params.row.cn;
+        return (
+          <Link href={`/booking/vehicle-assignment/${slug}`}  >
+            <Button variant="contained" size="small" style={{ fontSize: '9px', fontWeight: 700 }}>
+              Vehicle Assign
+            </Button>
+          </Link>
+        );
+      }
+    },
   ];
 
-  const searchString = (searchValue) => {
-    if (searchValue != null) {
-    }
-    const filteredRows = rowsData.filter((row) => {
-      return row.lr_id.toLowerCase().includes(searchValue.toLowerCase());
+  var i = 1;
+  rowsData.map((item) => {
+    rows.push({
+      id: i + '.',
+      cn: item.lr_id,
+      consignor: item.consignor_name,
+      consignee: item.consignee_name,
+      from: item.from_location,
+      to: item.to_location,
+      redirect: '',
     });
+    i++;
+  });
 
-    setRowsData(filteredRows);
-
-    if (searchValue === '') {
-      reset();
-    }
-  };
-  const reset = () => {
-    setRowsData(data);
-  };
 
   return (
     <>
@@ -77,13 +109,8 @@ const VehicleAssignment = ({ data }) => {
           </Grid>
         </Grid>
 
-        <TableComponent
-          rows={rows}
-          column={column}
-          totalPages={totalPages}
-          searchName={'Search Via Lr Number'}
-          searchString={searchString}
-        />
+        <DatGridComponent columns={columns} rows={rows} />
+
       </Container>
     </>
   );
@@ -119,10 +146,3 @@ export async function getServerSideProps(ctx) {
   return { props: { data } };
 }
 
-const assignButton = (slug) => {
-  return (
-    <Link href={`/booking/vehicle-assignment/${slug}`}>
-      <Button variant="outlined">Vehicle Assign</Button>
-    </Link>
-  );
-};
