@@ -100,12 +100,12 @@ const BiltyGenerateTable = (props) => {
     'From Location',
     'To Location',
     'Vehicle No',
-    'Vehicle Type',
+
     'Driver Name',
     'Driver Contact No',
     'Add Bilty  ',
     'View Bilty ',
-    'Update'
+    // 'Update'
   ];
 
   const [rowsData, setRowsData] = useState(biltyData.data);
@@ -125,7 +125,6 @@ const BiltyGenerateTable = (props) => {
           item.from_location,
           item.to_location,
           item.vehicle_no.toUpperCase(),
-          item.vehicle_type.toUpperCase(),
           item.driver_name,
           item.driver_mobile,
 
@@ -139,7 +138,6 @@ const BiltyGenerateTable = (props) => {
           ) : (
             '----'
           ),
-          <Button variant="contained" color="secondary" size='sm' onClick={() => router.push(`/edit/edit-lr/${item.lr_id}`)} key={i} >Update</Button>
         ]);
         i++;
       });
