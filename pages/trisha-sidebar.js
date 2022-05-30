@@ -68,7 +68,7 @@ const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
     // zIndex: theme.zIndex.drawer + 1,
-    width: `calc(100% - 56px)`,
+    width: `calc(100% - ${theme.spacing(8)})`,
     transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -171,7 +171,7 @@ export default function TrishaSidebar({ Session, children }) {
             <CssBaseline />
             <AppBar elevation='0px' position="fixed" open={open} style={{ backgroundColor: "white" }} >
                 <Toolbar style={{ justifyContent: 'space-between', px: '0px !important' }}
-                    sx={{ flexDirection: { xs: 'column', sm: 'row' }, mt: { xs: '0px', sm: '10px' }, px: { xs: '24px', sm: '44px' } }} >
+                    sx={{ flexDirection: { xs: 'column', sm: 'row' }, mt: { xs: '0px', sm: '0px' }, px: { xs: '24px', sm: '44px' } }} >
                     <Box  >
                         <Typography sx={{ fontSize: '40px', color: '#657ED7', fontWeight: '700', }}   >
                             TA Sidcul
