@@ -196,3 +196,9 @@ padding: 0px !important;
     
   }
 }
+
+
+.sidebarclr .MuiPaper-root {
+  background: #5B6073;
+  border-radius: 0px 50px 50px 0px;
+}
