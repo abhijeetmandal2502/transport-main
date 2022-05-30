@@ -20,16 +20,16 @@ import { MenuModel } from '../components/menu/MenuModel';
 import Login from '../pages/login';
 import MainMenu from './menu/MainMenu';
 
+import TrishaSidebar from './TrishaSidebar';
+
 function Layout({ Session, children }) {
   // const { data: session, status } = useSession();
   const classes = useStyles();
-
 
   const [menuArr, setMenuArr] = useState(MenuModel);
   const { data: session, status } = useSession();
 
   const token = session && session.user.access_token;
-
 
   if (status == 'loading') return null;
   return (
@@ -41,8 +41,9 @@ function Layout({ Session, children }) {
       {status == 'authenticated' ? (
         <div>
           {/*  */}
-          <MainMenu menuData={session.user.menu_access} />
-          <Container className={classes.main}>{children}</Container>
+          <TrishaSidebar />
+          {/* <MainMenu menuData={session.user.menu_access} />
+          <Container className={classes.main}>{children}</Container> */}
         </div>
       ) : (
         <Login />
