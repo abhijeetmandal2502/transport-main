@@ -19,9 +19,25 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { useSession, getSession } from 'next-auth/react';
 import { Card, CardContent, Grid, Paper } from '@mui/material';
-import Link from 'next/link'
-import { AccountBalanceOutlined, AccountBalanceSharp, ArrowRightSharp, AssignmentTurnedInOutlined, LocalShippingRounded, Print } from '@material-ui/icons';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import {
+  AccountBalanceOutlined,
+  AccountBalanceSharp,
+  ArrowRightSharp,
+  AssignmentTurnedInOutlined,
+  LocalShippingRounded,
+  Print,
+} from '@material-ui/icons';
 import { AppRegistration, AppRegistrationOutlined } from '@mui/icons-material';
+import InputBase from '@mui/material/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
+import DirectionsIcon from '@mui/icons-material/Directions';
+// import CNStatus from '../components/dashboard/CNStatus';
+import CNStepper from '../components/dashboard/CNStepper';
+import { useRouter } from 'next/router';
+import shipTruck from '../public/img/ship-truck.png';
+import Image from 'next/image';
 
 const drawerWidth = 200;
 
@@ -41,9 +57,16 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
       }),
       marginLeft: 0,
     }),
-  }),
+  })
 );
 
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
@@ -74,6 +97,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function Home2({ data }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const router = useRouter();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -95,11 +119,10 @@ export default function Home2({ data }) {
     });
   }
 
-
   return (
-    <Box >
+    <Box>
       {/* <CssBaseline /> */}
-      <div position="fixed" open={open} >
+      <div position="fixed" open={open}>
         <Toolbar>
           <IconButton
             // color="inherit"
@@ -116,22 +139,19 @@ export default function Home2({ data }) {
         </Toolbar>
       </div>
 
-      <Drawer
-
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
+      <Drawer variant="persistent" anchor="left" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {theme.direction === 'ltr' ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
           <ListItem button style={{ color: 'black' }}>
-
-
             <ListItemIcon>
               <AppRegistrationOutlined />
             </ListItemIcon>
@@ -141,36 +161,28 @@ export default function Home2({ data }) {
           </ListItem>
 
           <ListItem button style={{ color: 'black' }}>
-
-
             <ListItemIcon>
               <LocalShippingRounded />
             </ListItemIcon>
-            <Link href="/booking/vehicle-assignment" >
+            <Link href="/booking/vehicle-assignment">
               <ListItemText primary={'Vehicle Assign'} />
-
             </Link>
           </ListItem>
 
           <ListItem button style={{ color: 'black' }}>
-
-
             <ListItemIcon>
               <AssignmentTurnedInOutlined />
             </ListItemIcon>
-            <Link href="/loading/bilty-generate" >
+            <Link href="/loading/bilty-generate">
               <ListItemText primary={'Bilty Generate'} />
-
             </Link>
           </ListItem>
 
           <ListItem button style={{ color: 'black' }}>
-
-
             <ListItemIcon>
               <Print />
             </ListItemIcon>
-            <Link href="/loading/generated-bilty" >
+            <Link href="/loading/generated-bilty">
               <ListItemText primary={'Print Bilty'} />
             </Link>
           </ListItem>
@@ -179,13 +191,44 @@ export default function Home2({ data }) {
             <ListItemIcon>
               <AccountBalanceSharp />
             </ListItemIcon>
-            <Link href="/account/advance-payment" >
+            <Link href="/account/advance-payment">
               <ListItemText primary={'Advance Payment'} />
-
             </Link>
           </ListItem>
         </List>
       </Drawer>
+
+      <CNStepper />
+
+      <Box
+        sx={{
+          display: { base: 'block', md: 'block' },
+          marginY: 'auto',
+          // alignItems: 'start',
+        }}
+      >
+        {/* <Paper
+          component="form"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            width: { base: '100%', md: '30%' },
+            marginY: '15px',
+          }}
+        >
+          <InputBase
+            sx={{ ml: 1, flex: 1 }}
+            borderRadius="20px"
+            placeholder="Search By CN No "
+            inputProps={{ 'aria-label': 'search google maps' }}
+          />
+          <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
+            <SearchIcon />
+          </IconButton>
+        </Paper> */}
+
+        {/* <CNStatus /> */}
+      </Box>
 
       <Paper
         style={{
@@ -195,7 +238,6 @@ export default function Home2({ data }) {
           boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
         }}
       >
-        {' '}
         <Grid container style={{ marginBottom: 15 }}>
           <Grid item xs={12} sm={6}>
             <Typography variant="h6" component="h4" sx={{ fontWeight: 'bold' }}>
@@ -205,48 +247,107 @@ export default function Home2({ data }) {
         </Grid>
         <Grid container spacing={2}>
           {Object.keys(lrArr).map((key, item) => {
-            return (
-              <Grid item xs={12} sm={6} md={2} key={item} >
-                <Box>
-                  <Paper style={{ position: 'relative ' }}>
-                    <Card
-                      variant="outlined"
-                      style={{
-                        // paddingBottom: 24,
-                        backgroundImage:
-                          'url(https://wptesting.thenwg.xyz/wp-content/uploads/2022/03/background-wave-red-blue.png), linear-gradient(45deg, #3ad11e42, transparent)',
-                        backgroundSize: 'cover',
-                      }}
-                    >
-                      <CardContent>
-                        <Typography
-                          style={{ fontWeight: 600, fontSize: 14 }}
-                          color="text.secondary"
-                          gutterBottom
-                        >
-                          {capitalize(key.replace(/_/g, ' '))} -
-                        </Typography>
-                        <Typography
-                          style={{
-                            background: 'white',
-                            boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
-                            width: 26,
-                            display: 'flex',
-                            border: '1px solid #cdcdcd',
-                            borderRadius: 25,
-                            justifyContent: 'center',
-                            position: 'absolute',
-                            bottom: 5,
-                            right: 5,
-                          }}
-                        >
-                          {lrArr[key]}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Paper>
-                </Box>
+            console.log('chekcitemsss', key);
+            return key != 'cancel' &&
+              key != 'hold' &&
+              key != 'active' &&
+              key != 'closed' ? (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={3}
+                key={item}
+                sx={{ cursor: 'pointer' }}
+                onClick={() => {
+                  var slug =
+                    key == 'fresh'
+                      ? `/booking/lr-booking`
+                      : key == 'vehicle-assigned'
+                      ? `/booking/vehicle-assignment`
+                      : key == 'loading'
+                      ? '/loading/bilty-generate'
+                      : key == 'advance'
+                      ? `/account/new-advance-payment`
+                      : key == 'unload'
+                      ? `/account/unload-vehicle`
+                      : key == 'v-payment'
+                      ? `/account/final-payment-list`
+                      : key == 'c-payment'
+                      ? `/account/pending-consignor-payment`
+                      : '';
+                  router.push(slug);
+                }}
+              >
+                <motion.div whileHover={{ scale: 1.07 }} id="imghgt">
+                  <Box>
+                    <Paper style={{ position: 'relative ' }}>
+                      <Card
+                        variant="outlined"
+                        style={{
+                          height: '90px',
+                          // paddingBottom: 24,
+                          // border: '2px',
+                          borderColor: '#FFD600',
+                          borderWidth: '2px',
+                          backgroundColor: '#FFF4BB',
+                          // backgroundImage:
+                          //   'url(https://wptesting.thenwg.xyz/wp-content/uploads/2022/03/background-wave-red-blue.png), linear-gradient(45deg, #3ad11e42, transparent)',
+                          backgroundSize: 'cover',
+                        }}
+                      >
+                        <CardContent>
+                          <Box
+                            height="70px"
+                            width="80px"
+                            style={{
+                              position: 'absolute',
+                              top: 0,
+                              right: 5,
+
+                              // transform: 'scaleX(1) scaleY(2)',
+                            }}
+                          >
+                            <Image src={shipTruck} objectFit="cover"></Image>
+                          </Box>
+
+                          <Typography
+                            style={{ fontWeight: 600, fontSize: 14 }}
+                            color="white"
+                            gutterBottom
+                            position="relative"
+                            backgroundColor="#3f3e3e54"
+                            width={'max-content'}
+                            paddingX={'5px'}
+                            borderRadius={'10px'}
+                            // background="white"
+                          >
+                            {capitalize(key.replace(/_/g, ' '))} -
+                          </Typography>
+                          <Typography
+                            style={{
+                              background: 'white',
+                              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+                              width: 26,
+                              display: 'flex',
+                              border: '1px solid #cdcdcd',
+                              borderRadius: 25,
+                              justifyContent: 'center',
+                              position: 'absolute',
+                              bottom: 5,
+                              right: 5,
+                            }}
+                          >
+                            {lrArr[key]}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Paper>
+                  </Box>
+                </motion.div>
               </Grid>
+            ) : (
+              <div></div>
             );
           })}
         </Grid>
@@ -270,51 +371,126 @@ export default function Home2({ data }) {
           </Grid>
         </Grid>
         <Grid container spacing={2}>
-          {vehicleArr && Object.keys(vehicleArr).map((key, item) => {
-            return (
-              <Grid item xs={12} sm={6} md={2} key={item} >
-                <Box>
-                  <Paper style={{ position: 'relative ' }}>
-                    <Card
-                      variant="outlined"
-                      style={{
-                        // paddingBottom: 24,
-                        backgroundImage:
-                          'url(https://wptesting.thenwg.xyz/wp-content/uploads/2022/03/background-wave-red-blue.png),linear-gradient(45deg, rgb(70 176 223 / 55%), transparent)',
-                        backgroundSize: 'cover',
-                      }}
-                    >
-                      <CardContent>
-                        <Typography
-                          style={{ fontWeight: 600, fontSize: 14 }}
-                          color="text.secondary"
-                          gutterBottom
-                        >
-                          {capitalize(key.replace(/_/g, ' '))} -{' '}
-                        </Typography>
-                        <Typography
+          {vehicleArr &&
+            Object.keys(vehicleArr).map((key, item) => {
+              return (
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={3}
+                  key={item}
+                  sx={{ cursor: 'pointer' }}
+                >
+                  <motion.div whileHover={{ scale: 1.07 }} id="imghgt">
+                    <Box>
+                      <Paper style={{ position: 'relative ' }}>
+                        <Card
+                          variant="outlined"
                           style={{
-                            background: 'white',
-                            boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
-                            width: 26,
-                            display: 'flex',
-                            border: '1px solid #cdcdcd',
-                            borderRadius: 25,
-                            justifyContent: 'center',
-                            position: 'absolute',
-                            bottom: 5,
-                            right: 5,
+                            height: '90px',
+                            // paddingBottom: 24,
+                            // border: '2px',
+                            borderColor: '#FFD600',
+                            borderWidth: '2px',
+                            backgroundColor: '#FFF4BB',
+                            // backgroundImage:
+                            //   'url(https://wptesting.thenwg.xyz/wp-content/uploads/2022/03/background-wave-red-blue.png), linear-gradient(45deg, #3ad11e42, transparent)',
+                            backgroundSize: 'cover',
                           }}
                         >
-                          {vehicleArr[key]}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Paper>
-                </Box>
-              </Grid>
-            );
-          })}
+                          <CardContent>
+                            <Box
+                              height="70px"
+                              width="80px"
+                              style={{
+                                position: 'absolute',
+                                top: 0,
+                                right: 5,
+
+                                // transform: 'scaleX(1) scaleY(2)',
+                              }}
+                            >
+                              <Image src={shipTruck} objectFit="cover"></Image>
+                            </Box>
+
+                            <Typography
+                              style={{ fontWeight: 600, fontSize: 14 }}
+                              color="white"
+                              gutterBottom
+                              position="relative"
+                              backgroundColor="#3f3e3e54"
+                              width={'max-content'}
+                              paddingX={'5px'}
+                              borderRadius={'10px'}
+                              // background="white"
+                            >
+                              {capitalize(key.replace(/_/g, ' '))} -
+                            </Typography>
+                            <Typography
+                              style={{
+                                background: 'white',
+                                boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+                                width: 26,
+                                display: 'flex',
+                                border: '1px solid #cdcdcd',
+                                borderRadius: 25,
+                                justifyContent: 'center',
+                                position: 'absolute',
+                                bottom: 5,
+                                right: 5,
+                              }}
+                            >
+                              {vehicleArr[key]}
+                            </Typography>
+                          </CardContent>
+                        </Card>
+                      </Paper>
+                      {/* <Paper style={{ position: 'relative ' }}>
+                        <Card
+                          variant="outlined"
+                          style={{
+                            // paddingBottom: 24,
+                            borderColor: '#FFD600',
+                            borderWidth: '2px',
+                            backgroundColor: '#FFF4BB',
+                            // backgroundImage:
+                            //   'url(https://wptesting.thenwg.xyz/wp-content/uploads/2022/03/background-wave-red-blue.png),linear-gradient(45deg, rgb(70 176 223 / 55%), transparent)',
+                            backgroundSize: 'cover',
+                          }}
+                        >
+                          <CardContent>
+                            <Typography
+                              style={{ fontWeight: 600, fontSize: 14 }}
+                              color="text.secondary"
+                              gutterBottom
+                            >
+                              {capitalize(key.replace(/_/g, ' '))} -{' '}
+                            </Typography>
+                            <Typography
+                              style={{
+                                background: 'white',
+                                boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+                                width: 26,
+                                display: 'flex',
+                                border: '1px solid #cdcdcd',
+                                borderRadius: 25,
+                                justifyContent: 'center',
+                                position: 'absolute',
+                                bottom: 5,
+                                right: 5,
+                              }}
+                            >
+                              {vehicleArr[key]}
+                            </Typography>
+                          </CardContent>
+                        </Card>
+                      </Paper> */}
+                    </Box>
+                  </motion.div>
+                </Grid>
+              );
+            })}
         </Grid>
       </Paper>
       <Paper
@@ -341,53 +517,118 @@ export default function Home2({ data }) {
         <Grid container spacing={2}>
           {Object.keys(userArr).map((key, item) => {
             return (
-              <Grid item xs={12} sm={6} md={2} key={item} >
-                <Box>
-                  <Paper style={{ position: 'relative ' }}>
-                    <Card
-                      variant="outlined"
-                      style={{
-                        // paddingBottom: 24,
-                        backgroundImage:
-                          'url(https://wptesting.thenwg.xyz/wp-content/uploads/2022/03/background-wave-red-blue.png), linear-gradient(45deg, #3ad11e42, transparent)',
-                        backgroundSize: 'cover',
-                      }}
-                    >
-                      <CardContent>
-                        <Typography
-                          style={{ fontWeight: 600, fontSize: 14 }}
-                          color="text.secondary"
-                          gutterBottom
-                        >
-                          {capitalize(key.replace(/_/g, ' '))} -
-                        </Typography>
-                        <Typography
-                          style={{
-                            background: 'white',
-                            boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
-                            width: 26,
-                            display: 'flex',
-                            border: '1px solid #cdcdcd',
-                            borderRadius: 25,
-                            justifyContent: 'center',
-                            position: 'absolute',
-                            bottom: 5,
-                            right: 5,
-                          }}
-                        >
-                          {userArr[key]}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Paper>
-                </Box>
+              <Grid item xs={12} sm={6} md={3} key={item}>
+                <motion.div whileHover={{ scale: 1.07 }} id="imghgt">
+                  <Box>
+                    <Paper style={{ position: 'relative ' }}>
+                      <Card
+                        variant="outlined"
+                        style={{
+                          height: '90px',
+                          // paddingBottom: 24,
+                          // border: '2px',
+                          borderColor: '#FFD600',
+                          borderWidth: '2px',
+                          backgroundColor: '#FFF4BB',
+                          // backgroundImage:
+                          //   'url(https://wptesting.thenwg.xyz/wp-content/uploads/2022/03/background-wave-red-blue.png), linear-gradient(45deg, #3ad11e42, transparent)',
+                          backgroundSize: 'cover',
+                        }}
+                      >
+                        <CardContent>
+                          <Box
+                            height="70px"
+                            width="80px"
+                            style={{
+                              position: 'absolute',
+                              top: 0,
+                              right: 5,
+
+                              // transform: 'scaleX(1) scaleY(2)',
+                            }}
+                          >
+                            <Image src={shipTruck} objectFit="cover"></Image>
+                          </Box>
+
+                          <Typography
+                            style={{ fontWeight: 600, fontSize: 14 }}
+                            color="white"
+                            gutterBottom
+                            position="relative"
+                            backgroundColor="#3f3e3e54"
+                            width={'max-content'}
+                            paddingX={'5px'}
+                            borderRadius={'10px'}
+                            // background="white"
+                          >
+                            {capitalize(key.replace(/_/g, ' '))} -
+                          </Typography>
+                          <Typography
+                            style={{
+                              background: 'white',
+                              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+                              width: 26,
+                              display: 'flex',
+                              border: '1px solid #cdcdcd',
+                              borderRadius: 25,
+                              justifyContent: 'center',
+                              position: 'absolute',
+                              bottom: 5,
+                              right: 5,
+                            }}
+                          >
+                            {userArr[key]}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Paper>
+                    {/* <Paper style={{ position: 'relative ' }}>
+                      <Card
+                        variant="outlined"
+                        style={{
+                          // paddingBottom: 24,
+                          borderColor: '#FFD600',
+                          borderWidth: '2px',
+                          backgroundColor: '#FFF4BB',
+                          // backgroundImage:
+                          //   'url(https://wptesting.thenwg.xyz/wp-content/uploads/2022/03/background-wave-red-blue.png), linear-gradient(45deg, #3ad11e42, transparent)',
+                          backgroundSize: 'cover',
+                        }}
+                      >
+                        <CardContent>
+                          <Typography
+                            style={{ fontWeight: 600, fontSize: 14 }}
+                            color="text.secondary"
+                            gutterBottom
+                          >
+                            {capitalize(key.replace(/_/g, ' '))} -
+                          </Typography>
+                          <Typography
+                            style={{
+                              background: 'white',
+                              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+                              width: 26,
+                              display: 'flex',
+                              border: '1px solid #cdcdcd',
+                              borderRadius: 25,
+                              justifyContent: 'center',
+                              position: 'absolute',
+                              bottom: 5,
+                              right: 5,
+                            }}
+                          >
+                            {userArr[key]}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Paper> */}
+                  </Box>
+                </motion.div>
               </Grid>
             );
           })}
         </Grid>
       </Paper>
-
-
     </Box>
   );
 }
@@ -402,17 +643,14 @@ export async function getServerSideProps(ctx) {
 
     var data = [];
     try {
-      const req = await fetch(
-        `${process.env.apiUrl}/dashboard`,
-        {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          method: 'GET',
-        }
-      );
+      const req = await fetch(`${process.env.apiUrl}/dashboard`, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        method: 'GET',
+      });
       var res = await req.json();
 
       if (res.status === 'success') {

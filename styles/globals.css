@@ -188,4 +188,11 @@ padding: 0px !important;
   #surjid {
     width: 70%;
   }
+
+  #scrollDirection{
+
+   flex-direction: column;
+
+    
+  }
 }
