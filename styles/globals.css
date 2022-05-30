@@ -184,6 +184,14 @@ padding: 0px;
 padding: 0px !important;
 }
 
+
+.sidebarclr .MuiPaper-root{
+  background: #5B6073;
+  border-radius: 0px 50px 50px 0px;
+}
+
+
+
 @media only screen and (min-width: 768px) {
   #surjid {
     width: 70%;

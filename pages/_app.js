@@ -8,6 +8,7 @@ import { SessionProvider } from 'next-auth/react';
 import { BiltyDataProvider } from '../helpers/BiltyData';
 import LoadingScreen from '../components/loadingScreen';
 import ErrorBoundary from '../components/ErrorBoundary'
+import TrishaSidebar from './trisha-sidebar';
 // import {BiltyDataProvider} from ''
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
@@ -52,12 +53,15 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
           TransitionComponent={Grow}
         >
           <Layout>
+            {/* <TrishaSidebar> */}
+
             {!loading ? (
               <ErrorBoundary> <Component {...pageProps} /></ErrorBoundary>
 
             ) : <LoadingScreen />
 
             }
+            {/* </TrishaSidebar> */}
 
           </Layout>
           {/* index */}

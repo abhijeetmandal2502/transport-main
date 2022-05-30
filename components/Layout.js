@@ -19,6 +19,7 @@ import { MenuModel } from '../components/menu/MenuModel';
 // import { MenuBookTwoTone, MenuTwoTone } from "@material-ui/icons";
 import Login from '../pages/login';
 import MainMenu from './menu/MainMenu';
+import TrishaSidebar from '../pages/trisha-sidebar';
 
 function Layout({ Session, children }) {
   // const { data: session, status } = useSession();
@@ -41,8 +42,9 @@ function Layout({ Session, children }) {
       {status == 'authenticated' ? (
         <div>
           {/*  */}
-          <MainMenu menuData={session.user.menu_access} />
-          <Container className={classes.main}>{children}</Container>
+          <TrishaSidebar />
+          {/* <MainMenu menuData={session.user.menu_access} /> */}
+          {/* <Container className={classes.main}>{children}</Container> */}
         </div>
       ) : (
         <Login />
