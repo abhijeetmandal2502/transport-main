@@ -1,7 +1,7 @@
 import React from 'react'
 import { DataGrid, GridToolbar, QuickSearchToolbar } from '@mui/x-data-grid';
 
-const DatGridComponent = ({ rows, columns }) => {
+const DataGridComponent = ({ rows, columns }) => {
     return (
         <div style={{ height: 500, width: '100%' }}>
             <DataGrid
@@ -15,4 +15,4 @@ const DatGridComponent = ({ rows, columns }) => {
     )
 }
 
-export default DatGridComponent
+export default DataGridComponent

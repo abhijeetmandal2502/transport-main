@@ -89,9 +89,6 @@ const ProcessingBill = ({ data }) => {
 
             </Grid>
 
-            <Button onClick={handleOpen} >Open Model </Button>
-
-
             <TableComponent
                 column={column}
                 rows={rows}

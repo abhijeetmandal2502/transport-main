@@ -3,40 +3,99 @@ import { Typography, Grid } from '@mui/material';
 import { Box, Button, Container } from '@mui/material';
 import BreadCrumb from '../../components/BreadCrumb';
 import { useSession, getSession } from 'next-auth/react';
-import TableComponent from '../../components/TableComponent';
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import dateFormat, { masks } from 'dateformat';
 import { useRouter } from 'next/router';
+import DataGridComponent from '../../components/DataGridComponent';
 const PendingConsignorPayment = ({ data }) => {
   const router = useRouter();
-  const [rowsData, setRowsData] = useState(data);
-  const column = [
-    '#',
-    'LR No.',
-    'Consignor',
-    'Consignee',
-    'Booking Date',
-    'From',
-    'To',
-    'Vehicle No',
-    'Vehicle Type',
-    'Action',
+  const columns = [
+    {
+      field: 'id',
+      headerName: '#',
+      width: 60,
+    },
+    {
+      field: 'cn',
+      headerName: 'LR No.',
+      width: 150,
+      editable: true,
+    },
+    {
+      field: 'bookingDate',
+      headerName: 'Booking Date',
+      width: 150,
+    },
+    {
+      field: 'consignor',
+      headerName: 'consignor',
+      width: 300,
+      editable: true,
+    },
+    {
+      field: 'consignee',
+      headerName: 'Consignee',
+      width: 300,
+      editable: true,
+    },
+    {
+      field: 'from',
+      headerName: 'From',
+      width: 110,
+      editable: true,
+    },
+    {
+      field: 'to',
+      headerName: 'To',
+      width: 110,
+      editable: true,
+    },
+    {
+      field: 'vehicleNo',
+      headerName: 'vehicle No',
+      width: 110,
+      editable: true,
+    },
+    {
+      field: 'vehicleType',
+      headerName: 'Vehicle Type',
+      width: 110,
+      editable: true,
+    },
+    {
+      field: 'redirect',
+      headerName: 'Action',
+      width: 110,
+      editable: true,
+      renderCell: (params, i) => {
+        var slug = params.row.cn;
+        return (
+          <Link href={`/account/pending-consignor-payment/${slug}`}  >
+            <Button variant="contained" size="small" style={{ fontSize: '9px', fontWeight: 700 }}>
+              Bilties
+            </Button>
+          </Link>
+        );
+      }
+    },
   ];
+
   const rows = [];
-  rowsData.map((item, i) => {
+  data.map((item, i) => {
     const lr = item.lr_id;
     const bookingDate = dateFormat(item.booking_date, 'dd-mm-yyyy');
-    rows.push([
-      i + 1,
-      lr,
-      item.consignor_name,
-      item.consignee_name,
-      bookingDate,
-      item.from_location,
-      item.to_location,
-      item.vehicle_no.toUpperCase(),
-      item.ownership.toUpperCase(),
-      <Button
+    rows.push({
+      id: i + 1,
+      cn: lr,
+      consignor: item.consignor_name,
+      consignee: item.consignee_name,
+      bookingDate: bookingDate,
+      from: item.from_location,
+      to: item.to_location,
+      vehicleNo: item.vehicle_no.toUpperCase(),
+      vehicleType: item.ownership.toUpperCase(),
+      redirect: <Button
         key={i}
         variant="outlined"
         size="small"
@@ -45,28 +104,9 @@ const PendingConsignorPayment = ({ data }) => {
       >
         Bilties
       </Button>,
-    ]);
+    });
   });
 
-  const totalPages = Math.ceil(rowsData / 10);
-
-  const searchString = (searchValue) => {
-    if (searchValue != null) {
-    }
-    const filteredRows = rowsData.filter((row) => {
-      return row.lr_id.toLowerCase().includes(searchValue.toLowerCase());
-    });
-
-    setRowsData(filteredRows);
-
-    if (searchValue === '') {
-      reset();
-    }
-  };
-
-  const reset = () => {
-    setRowsData(data);
-  };
 
   return (
     <>
@@ -89,13 +129,7 @@ const PendingConsignorPayment = ({ data }) => {
           ></Box>
         </Grid>
       </Grid>
-      <TableComponent
-        column={column}
-        rows={rows}
-        searchString={searchString}
-        totalPages={totalPages}
-        searchName={'Search Via Lr Number'}
-      />
+      <DataGridComponent columns={columns} rows={rows} />
     </>
   );
 };

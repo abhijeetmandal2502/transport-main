@@ -7,29 +7,20 @@ import {
   Paper,
   Typography,
 } from '@material-ui/core';
-import { Add, DoubleArrow, Search } from '@material-ui/icons';
 import {
   Autocomplete,
   OutlinedInput,
   TextareaAutosize,
   TextField,
 } from '@mui/material';
-import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import BackButton from '../buttons/BackButton';
-import DatePickers from '../DatePickers';
 import { useForm, Controller } from 'react-hook-form';
 import { useSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import { useSession, signIn, signOut, getSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import ModalConfirmation from '../../components/ModalConfirmation';
 import useSWR from 'swr';
-//  '../../../components/ModalConfirmation';
 
 const NewBilty = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -38,10 +29,9 @@ const NewBilty = () => {
 
   const empId = session && session.user.emp_id;
   const token = session && session.user.access_token;
-
+  const [shipment_no, setShipmentNo] = useState('');
 
   const bookingNo = router.query.id;
-  // const shipmentNo = router.query.shipmentId;
 
   const {
     register,
@@ -75,26 +65,27 @@ const NewBilty = () => {
 
   const { data, error } = useSWR(
     `${process.env.apiUrl}/lr-booking/single/${bookingNo}`,
+
     fetcher
   );
+
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
 
-  if (data) {
-    const biltyDataa = data.data;
+  var shipmentNo = '';
+  var gstNo = '';
 
-    if (biltyDataa[0] === undefined) {
-      const gstNo = biltyDataa.consignor_gst != undefined ? biltyDataa.consignor_gst : null;
-      const shipmentNo = biltyDataa.shipment_no != undefined ? biltyDataa.shipment_no : null;
+  if (data.status === 'success') {
+    const biltyDataa = data.data;
+    if (biltyDataa.length > 0) {
+      shipmentNo = biltyDataa[0].shipment_no;
+      gstNo = biltyDataa[0].consignor_gst
     }
     else {
-      const gstNo = biltyDataa[0].consignor_gst != undefined ? biltyDataa[0].consignor_gst : null;
-      const shipmentNo = biltyDataa[0].shipment_no !== undefined ? biltyDataa[0].shipment_no : null;
+      gstNo = biltyDataa.consignor_gst;
+      shipmentNo = '';
     }
-
-
   }
-
 
   // submit for add bilty
 
@@ -268,19 +259,16 @@ const NewBilty = () => {
                         }}
                       >
                         <OutlinedInput
-                          defaultValue={shipmentNo === '' ? null : shipmentNo}
+                          value={shipment_no === '' ? shipmentNo : shipment_no}
                           {...register('shipment_no', { required: true })}
-                          placeholder={
-                            shipmentNo !== null && shipmentNo !== undefined
-                              ? shipmentNo
-                              : 'Enter Shipment Number'
-                          }
+
                           style={{
                             width: '-webkit-fill-available',
                             paddingLeft: 5,
                             height: 36,
                             borderRadius: '4px ',
                           }}
+                          onChange={(e) => setShipmentNo(e.target.value)}
                         />
                       </Box>
                     </Box>
@@ -449,16 +437,11 @@ const NewBilty = () => {
                         }}
                       >
                         <OutlinedInput
-                          // placeholder="Invoice Number"
-                          // type="date"
-                          value={gstNo == '' ? null : gstNo}
+                          value={gstNo}
+
                           {...register('gst_no', { required: false })} // onChange={(e) => setDate(e.target.value)}
-                          // value={date}
-                          placeholder={
-                            gstNo !== null && gstNo !== undefined
-                              ? gstNo
-                              : 'Enter GST Number'
-                          }
+
+
                           style={{
                             width: '-webkit-fill-available',
                             paddingLeft: 5,

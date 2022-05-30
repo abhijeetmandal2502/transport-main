@@ -7,6 +7,8 @@ import { useSession, getSession } from 'next-auth/react';
 import NoDataAvl from '../../components/DataNotAvl';
 const AdvancePayment = ({ cnDetails }) => {
 
+  console.log("cn details :", cnDetails)
+
   return (
     <>
       <BreadCrumb />

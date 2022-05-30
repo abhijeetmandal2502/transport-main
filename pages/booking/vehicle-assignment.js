@@ -2,15 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Typography, Grid } from '@mui/material';
 import { Box, Button, Container } from '@mui/material';
 import BreadCrumb from '../../components/BreadCrumb';
-import TableComponent from '../../components/TableComponent';
 import Link from 'next/link';
 import { useSession, getSession } from 'next-auth/react';
-import { DataGrid } from '@mui/x-data-grid';
-import DatGridComponent from '../../components/DatGridComponent';
-import { LocalShipping } from '@material-ui/icons';
-
-
-
+import DataGridComponent from '../../components/DataGridComponent';
 
 const VehicleAssignment = ({ data }) => {
   const [rowsData, setRowsData] = useState(data);
@@ -109,7 +103,7 @@ const VehicleAssignment = ({ data }) => {
           </Grid>
         </Grid>
 
-        <DatGridComponent columns={columns} rows={rows} />
+        <DataGridComponent columns={columns} rows={rows} />
 
       </Container>
     </>
