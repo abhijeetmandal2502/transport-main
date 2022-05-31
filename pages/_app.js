@@ -60,7 +60,6 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
             <Layout>
               {!loading ? (
                 <ErrorBoundary>
-                  {' '}
                   <Component {...pageProps} />
                 </ErrorBoundary>
               ) : (

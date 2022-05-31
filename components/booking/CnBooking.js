@@ -232,11 +232,11 @@ const CNBooking = (props) => {
   return (
     <div>
       <Container
-        style={{
-          alignItems: 'center',
-          paddingLeft: 0,
-          paddingRight: 0,
-        }}
+      // style={{
+      //   alignItems: 'center',
+      //   paddingLeft: 0,
+      //   paddingRight: 0,
+      // }}
       >
         <Grid container style={{ marginBottom: 15 }}>
           <Grid item xs={12} sm={6}>

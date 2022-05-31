@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Paper,
@@ -11,54 +11,58 @@ import {
   MenuItem,
   TextField,
   Box,
-} from "@mui/material";
-import Image from "next/image";
+} from '@mui/material';
+import Image from 'next/image';
 
 // from saurabh
-import { useSession, signIn, signOut, getSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import Loader from "../components/utilities/Loader";
+import { useSession, signIn, signOut, getSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import Loader from '../components/utills/Loader';
 
-import logo1 from "../public/TA_sidcul__black_-removebg-preview.png";
-import { useSnackbar } from "notistack";
-import { useForm } from "react-hook-form";
+import logo1 from '../public/TA_sidcul__black_-removebg-preview.png';
+import { useSnackbar } from 'notistack';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
+import * as yup from 'yup';
 
-const schema = yup.object({
-  role: yup.string().required('Select role for login'),
-  userid: yup.string().required('userid is required Field'),
-  userid: yup.string().required('userid is required Field'),
-}).required();
-
+const schema = yup
+  .object({
+    role: yup.string().required('Select role for login'),
+    userid: yup.string().required('userid is required Field'),
+    userid: yup.string().required('userid is required Field'),
+  })
+  .required();
 
 // end
 
 const Login = () => {
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) });
 
   const linkStyle = { marginTop: 10 };
-  const avtarStyle = { backgroundColor: "#6881dc" };
+  const avtarStyle = { backgroundColor: '#6881dc' };
   const paperStyle = {
     padding: 20,
     paddingBottom: 40,
     maxWidth: 400,
-    height: "auto",
-    margin: "20px auto",
+    height: 'auto',
+    margin: '20px auto',
     radius: 10,
     borderRadius: 10,
-    border: "1px solid lightgray",
+    border: '1px solid lightgray',
   };
 
   const router = useRouter();
   const { data: session, status } = useSession();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-
-
   const getData = async () => {
-    if (status == "authenticated") {
-      router.push("/");
+    if (status == 'authenticated') {
+      router.push('/');
     }
   };
   // useEffect(() => {
@@ -75,7 +79,7 @@ const Login = () => {
     try {
       const res = await fetch(`${process.env.apiUrl}/roles`);
       allRoles = await res.json();
-      if (allRoles.status == "success") {
+      if (allRoles.status == 'success') {
         const tempRoles = [];
         allRoles.data.map((item) => {
           tempRoles.push({ roleId: item.roleId, roleName: item.roleName });
@@ -83,7 +87,6 @@ const Login = () => {
         setRoles(tempRoles);
       }
     } catch (err) {
-
       // alert(err);
     }
   };
@@ -93,7 +96,7 @@ const Login = () => {
   const onSubmit = async (formData) => {
     setLoader(true);
 
-    var result = await signIn("credentials", {
+    var result = await signIn('credentials', {
       redirect: false,
       email: formData.userid,
       password: formData.password,
@@ -103,20 +106,20 @@ const Login = () => {
     if (result.error) {
       setLoader(false);
       enqueueSnackbar(result.error, {
-        variant: "error",
+        variant: 'error',
         autoHideDuration: 3000,
       });
     } else {
       setLoader(false);
-      enqueueSnackbar("Successfully logged in !", {
-        variant: "success",
+      enqueueSnackbar('Successfully logged in !', {
+        variant: 'success',
         autoHideDuration: 3000,
       });
-      router.push("/");
+      router.push('/');
     }
   };
 
-  if (status == "authenticated") return null;
+  if (status == 'authenticated') return null;
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Paper elevation={10} style={paperStyle}>
@@ -130,15 +133,15 @@ const Login = () => {
           </Typography>
           <Image src={logo1} />
 
-          <Grid style={{ alignItems: "center" }} sx={{ mt: 1 }}>
+          <Grid style={{ alignItems: 'center' }} sx={{ mt: 1 }}>
             <FormControl margin="normal" fullWidth>
               <InputLabel id="demo-simple-select-label">Select Role</InputLabel>
               <Select
-                style={{ textAlign: "start" }}
+                style={{ textAlign: 'start' }}
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
                 label="Select Role"
-                {...register("role", { required: true })}
+                {...register('role', { required: true })}
               >
                 {allRoles.map((item) => (
                   <MenuItem value={item.roleId} key={item.roleId}>
@@ -155,7 +158,7 @@ const Login = () => {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                {...register("userid", { required: true })}
+                {...register('userid', { required: true })}
               />
 
               <TextField
@@ -167,18 +170,18 @@ const Login = () => {
                 type="password"
                 id="outlined-basic"
                 variant="outlined"
-                {...register("password", { required: true })}
+                {...register('password', { required: true })}
               />
             </FormControl>
-            <Link style={{ marginBottom: "10" }} href="/">
-              Forget Password?{" "}
+            <Link style={{ marginBottom: '10' }} href="/">
+              Forget Password?{' '}
             </Link>
 
             {loader ? (
               <Box
                 style={{
-                  display: "flex",
-                  justifyContent: "center",
+                  display: 'flex',
+                  justifyContent: 'center',
                   // my='10px'
                 }}
                 sx={{
@@ -190,10 +193,10 @@ const Login = () => {
             ) : (
               <Button
                 style={{
-                  marginTop: "20px",
-                  borderRadius: "6px",
-                  paddingTop: "10px",
-                  paddingBottom: "10px",
+                  marginTop: '20px',
+                  borderRadius: '6px',
+                  paddingTop: '10px',
+                  paddingBottom: '10px',
                 }}
                 color="primary"
                 fullWidth

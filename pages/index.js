@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -96,7 +96,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function Home2({ data }) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const router = useRouter();
 
   const handleDrawerOpen = () => {

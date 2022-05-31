@@ -28,8 +28,9 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { LocalShippingOutlined, StarBorder } from '@material-ui/icons';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import menuImage from '../public/transport.png';
+import menuImage from '../public/Logo.png';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import Link from 'next/link';
 
 const drawerWidth = 200;
 
@@ -178,13 +179,15 @@ export default function TrishaSidebar({ Session, children }) {
             px: { xs: '24px', sm: '44px' },
           }}
         >
-          <Box>
-            <Typography
-              sx={{ fontSize: '40px', color: '#657ED7', fontWeight: '700' }}
-            >
-              TA Sidcul
-            </Typography>
-          </Box>
+          <Link href="/booking/new-booking">
+            <Box>
+              <Typography
+                sx={{ fontSize: '40px', color: '#657ED7', fontWeight: '700' }}
+              >
+                TA Sidcul
+              </Typography>
+            </Box>
+          </Link>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Search>
               <SearchIconWrapper>
@@ -287,7 +290,7 @@ export default function TrishaSidebar({ Session, children }) {
         <DrawerHeader />
 
         <Box sx={{ py: { xs: '54px', sm: '24px' } }}>
-          <Typography>
+          {/* <Typography>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
             dolor purus non enim praesent elementum facilisis leo vel. Risus at
@@ -313,7 +316,7 @@ export default function TrishaSidebar({ Session, children }) {
             nibh sit. Ornare aenean euismod elementum nisi quis eleifend.
             Commodo viverra maecenas accumsan lacus vel facilisis. Nulla posuere
             sollicitudin aliquam ultrices sagittis orci a.
-          </Typography>
+          </Typography> */}
           <Container>{children}</Container>
         </Box>
       </Box>

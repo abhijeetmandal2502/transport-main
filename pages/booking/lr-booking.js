@@ -2,7 +2,7 @@ import CNBooking from '../../components/booking/CnBooking';
 import { useState, useEffect } from 'react';
 import { useSession, getSession } from 'next-auth/react';
 import BreadCrumb from '../../components/BreadCrumb';
-import { Container } from '@mui/material';
+import { Container, Box } from '@mui/material';
 import { capitalize } from '@material-ui/core';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
@@ -41,10 +41,10 @@ const LRBooking = ({ data, totalCount }) => {
   // console.log('check booking row', rows);
 
   return (
-    <div>
+    <Box paddingLeft={{ xs: '0px', md: '20px' }}>
       <Container
         style={{
-          alignItems: 'center',
+          // alignItems: 'center',
           paddingLeft: 0,
           paddingRight: 0,
         }}
@@ -53,7 +53,7 @@ const LRBooking = ({ data, totalCount }) => {
       </Container>
 
       <CNBooking rows={rows} setSlug={setSlug} />
-    </div>
+    </Box>
   );
 };
 
