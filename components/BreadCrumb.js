@@ -22,12 +22,11 @@ const BreadCrumb = (props) => {
   // to match string from breadcrumb
   const bStr = breadCrumbArr[1] + '/' + breadCrumbArr[2];
 
-  const pageAcc = ['/',];
+  const pageAcc = ['/'];
   for (var key in pageAccessArr) {
     const item = pageAccessArr[key]['url'];
     pageAcc.push(item);
   }
-
 
   if (!pageAcc.includes(bStr)) {
     enqueueSnackbar('You dont Have Permission to access this page', {
@@ -44,13 +43,12 @@ const BreadCrumb = (props) => {
           alignItems: 'center',
           paddingLeft: 0,
           paddingRight: 0,
-          marginTop: 5,
-          marginBottom: 5,
+          marginTop: '10px',
+          marginBottom: '10px',
         }}
       >
-        <Typography variant="p" component="p">
+        <Typography variant="p" component="p" marginTop={'20px'}>
           {breadCrumbArr.map((item, key) => {
-
             if (item === '') {
               var name = 'home';
             } else {

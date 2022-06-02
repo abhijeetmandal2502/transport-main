@@ -34,8 +34,6 @@ import BreadCrumb from '../../components/BreadCrumb';
 import UpdateButton from '../../components/buttons/UpdateButton';
 
 const VehicleRegister = ({ data }) => {
-
-
   const [rowsData, setRowsData] = useState(data);
   const searchString = (searchValue) => {
     if (searchValue != null) {
@@ -66,13 +64,11 @@ const VehicleRegister = ({ data }) => {
       item.ownership,
       item.vehicle_details,
       item.state,
-      <UpdateButton url={`/edit/vehicle-update/${item.vehicle_no}`} key={i} />
+      <UpdateButton url={`/edit/vehicle-update/${item.vehicle_no}`} key={i} />,
     ]);
     i++;
   });
   var totalPage = Math.ceil(data.length / 10);
-
-
 
   const url = '/settings/new-vehicle-register';
 
@@ -83,7 +79,7 @@ const VehicleRegister = ({ data }) => {
     'Owner Ship Details',
     'Owner Name',
     'State',
-    'Edit'
+    'Edit',
   ];
   return (
     <>

@@ -47,6 +47,7 @@ const LRBooking = ({ data, totalCount }) => {
           // alignItems: 'center',
           paddingLeft: 0,
           paddingRight: 0,
+          paddingTop: 5,
         }}
       >
         <BreadCrumb />

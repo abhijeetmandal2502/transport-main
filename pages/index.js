@@ -122,7 +122,7 @@ export default function Home2({ data }) {
   return (
     <Box>
       {/* <CssBaseline /> */}
-      <div position="fixed" open={open}>
+      {/* <div position="fixed" open={open}>
         <Toolbar>
           <IconButton
             // color="inherit"
@@ -137,7 +137,7 @@ export default function Home2({ data }) {
             Dashboard
           </Typography>
         </Toolbar>
-      </div>
+      </div> */}
 
       <Drawer variant="persistent" anchor="left" open={open}>
         <DrawerHeader>

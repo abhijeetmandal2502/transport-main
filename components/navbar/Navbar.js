@@ -31,7 +31,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { LocalShippingOutlined, StarBorder } from '@material-ui/icons';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import menuImage from '../../public/Logo.png';
+import menuImage from '../../public/img/header.png';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Link from 'next/link';
 // import { useDebounce } from 'use-debounce';
@@ -177,7 +177,9 @@ const Navbar = (props) => {
               </IconButton>
 
               <Link href="/">
-                <Image src={menuImage} alt="" />
+                <Box cursor="pointer">
+                  <Image src={menuImage} alt="" width={'200px'} height="50px" />
+                </Box>
               </Link>
 
               <Box>
@@ -193,6 +195,8 @@ const Navbar = (props) => {
               </Box>
             </Box>
             <Box
+              // height={'40px'}
+              alignItems={'center'}
               sx={{
                 display: 'flex',
                 justifyContent: {
@@ -397,13 +401,20 @@ const Navbar = (props) => {
         sx={{ display: { xs: 'none', sm: 'none', md: 'contents' } }}
       >
         <DrawerHeader sx={{ justifyContent: 'space-between', px: '16px' }}>
-          <LocalShippingOutlined
-            color="inherit"
+          <IconButton
+            // color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpenForDesk}
             edge="start"
-            style={{ fontSize: '30px', color: 'white' }}
-          />
+            sx={{
+              mr: 2,
+              ...(openDeskTopNav && { display: 'none' }),
+              color: 'white',
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+
           {/* <Typography sx={{ fontSize: '20px', fontWeight: '700', color: 'white', ...(open && { display: 'block' }), }}   >
                         TA Sidcul
                     </Typography> */}

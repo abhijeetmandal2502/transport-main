@@ -132,26 +132,30 @@ function Layout({ Session, children }) {
 
           {/* <Container className={classes.main}>{children}</Container> */}
 
+          <CssBaseline />
+          <Navbar menuData={session.user.menu_access} />
+          {/* <Box height={'5%'}></Box> */}
           <Box>
-            <CssBaseline />
-            <Navbar menuData={session.user.menu_access} />
-            <Box>
-              {/* <DrawerHeader /> */}
-              <Box
-                sx={{
-                  pr: { xs: '14px', sm: '34px' },
-                  pl: { xs: '14px', sm: '34px' },
-                }}
-              >
-                <Container pl={'20px'} className={classes.main}>
-                  {children}
-                </Container>
-              </Box>
-            </Box>
-            <Box sx={{ display: 'flex' }}>
-              {/* <Container className={classes.main}>{children}</Container> */}
+            {/* <DrawerHeader /> */}
+            <Box
+              sx={{
+                mt: {
+                  xs: '14px',
+                  sm: '34px',
+                  md: '5%',
+                },
+                // pr: { xs: '14px', sm: '34px' },
+                ml: { xs: '0px', sm: '0', md: '5%' },
+              }}
+            >
+              <Container pl={'0px'} className={classes.main}>
+                {children}
+              </Container>
             </Box>
           </Box>
+          {/* <Box sx={{ display: 'flex' }}>
+            <Container className={classes.main}>{children}</Container>
+          </Box> */}
         </div>
       ) : (
         <Login />
