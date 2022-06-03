@@ -118,13 +118,13 @@ function Layout({ Session, children }) {
   if (status == 'loading') return null;
 
   return (
-    <div>
+    <>
       <Head>
         <title>Transportation Project</title>
       </Head>
 
       {status == 'authenticated' ? (
-        <div>
+        <>
           {/*  */}
           {/* <TrishaSidebar />
            */}
@@ -134,29 +134,38 @@ function Layout({ Session, children }) {
 
           <CssBaseline />
           <Navbar menuData={session.user.menu_access} />
-          {/* <Box height={'5%'}></Box> */}
-          <Box>
+          {/* <Box height={'20%'}></Box> */}
+          <>
             {/* <DrawerHeader /> */}
             <Box
               sx={{
-                mt: {
-                  xs: '14px',
-                  sm: '34px',
+                marginTop: {
+                  xs: '40%',
+                  md: '8%',
+                },
+                marginLeft: {
+                  xs: '0px',
                   md: '5%',
                 },
-                // pr: { xs: '14px', sm: '34px' },
-                ml: { xs: '0px', sm: '0', md: '5%' },
               }}
+              // className="layoutContainerForMob"
+              // className={{
+              //   xs: 'layoutContainerForMob',
+              //   sm: 'layoutContainerForTab',
+              //   md: 'layoutContainerForDesk',
+              // }}
+              // position={'end'}
+              // marginLeft={{ xs: '40%', sm: '5%', md: '10%' }}
             >
-              <Container pl={'0px'} className={classes.main}>
+              <Container pt={'0px'} className={classes.main}>
                 {children}
               </Container>
             </Box>
-          </Box>
+          </>
           {/* <Box sx={{ display: 'flex' }}>
             <Container className={classes.main}>{children}</Container>
           </Box> */}
-        </div>
+        </>
       ) : (
         <Login />
       )}
@@ -164,7 +173,7 @@ function Layout({ Session, children }) {
       <footer className={classes.footer}>
         <Typography>All right reserved. Transport</Typography>
       </footer>
-    </div>
+    </>
   );
 }
 export async function getServerSideProps(context) {

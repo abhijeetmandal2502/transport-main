@@ -32,8 +32,12 @@ import BtnNewBooking from '../../components/buttons/NewBooking';
 import { useSession, getSession } from 'next-auth/react';
 import BreadCrumb from '../../components/BreadCrumb';
 import UpdateButton from '../../components/buttons/UpdateButton';
+import { useRouter } from 'next/router';
 
 const VehicleRegister = ({ data }) => {
+  const router = useRouter();
+
+  console.log('checkrouter', router.query);
   const [rowsData, setRowsData] = useState(data);
   const searchString = (searchValue) => {
     if (searchValue != null) {
@@ -57,16 +61,35 @@ const VehicleRegister = ({ data }) => {
 
   var i = 1;
   rowsData.map((item) => {
-    rows.push([
-      i,
-      item.vehicle_no.toUpperCase(),
-      item.type,
-      item.ownership,
-      item.vehicle_details,
-      item.state,
-      <UpdateButton url={`/edit/vehicle-update/${item.vehicle_no}`} key={i} />,
-    ]);
-    i++;
+    if (router.query.vhType == 'total') {
+      rows.push([
+        i,
+        item.vehicle_no.toUpperCase(),
+        item.type,
+        item.ownership,
+        item.vehicle_details,
+        item.state,
+        <UpdateButton
+          url={`/edit/vehicle-update/${item.vehicle_no}`}
+          key={i}
+        />,
+      ]);
+      i++;
+    } else if (item.ownership == router.query.vhType) {
+      rows.push([
+        i,
+        item.vehicle_no.toUpperCase(),
+        item.type,
+        router.query.vhType,
+        item.vehicle_details,
+        item.state,
+        <UpdateButton
+          url={`/edit/vehicle-update/${item.vehicle_no}`}
+          key={i}
+        />,
+      ]);
+      i++;
+    }
   });
   var totalPage = Math.ceil(data.length / 10);
 

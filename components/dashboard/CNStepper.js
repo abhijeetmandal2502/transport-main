@@ -21,6 +21,7 @@ import {
   useRecoilState,
   useRecoilValue,
 } from 'recoil';
+import { height } from '@mui/system';
 
 export const textState = atom({
   key: 'textState', // unique ID (with respect to other atoms/selectors)
@@ -36,6 +37,17 @@ const charCountState = selector({
   },
 });
 
+const styles = (theme) => ({
+  modalStyle1: {
+    position: 'absolute',
+    top: '10%',
+    left: '10%',
+    overflow: 'scroll',
+    height: '100%',
+    display: 'block',
+  },
+});
+
 const CNStepper = () => {
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -43,6 +55,7 @@ const CNStepper = () => {
     padding: theme.spacing(1),
     textAlign: 'center',
     color: theme.palette.text.secondary,
+    scrollBehavior: 'auto',
   }));
 
   const steps = 5;
@@ -51,7 +64,7 @@ const CNStepper = () => {
 
   const customwidth = `${100 / steps}%`;
 
-  const cnNo = 'LR11052022S5';
+  // const cnNo = 'LR11052022S5';
   const { data: session } = useSession();
   const token = session.user.access_token;
 
@@ -75,17 +88,17 @@ const CNStepper = () => {
     });
     // console.log('checkresponse 2', req);
     const res = await req.json();
-    // console.log('checkresponse 3', res);
+    console.log('checkresponse 3', res);
     setStagesData(res.data);
     return res;
   };
 
   useEffect(() => {
-    console.log('chcksounnt', searchValue);
+    // console.log('chcksounnt', stagesData);
     fetchData();
   }, [searchValue]);
 
-  useEffect(() => {}, [searchValue]);
+  // useEffect(() => {}, [searchValue]);
 
   {
     // console.log('checkresponse', Object.entries(stagesData)[0]);
@@ -98,8 +111,7 @@ const CNStepper = () => {
 
   return (
     <Box>
-      {' '}
-      {stagesData && Object.entries(stagesData).length > 0 ? (
+      {
         <Paper
           style={{
             padding: 20,
@@ -108,9 +120,38 @@ const CNStepper = () => {
             boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
           }}
         >
+          <Typography
+            style={{ fontWeight: 600, fontSize: 14 }}
+            marginBottom={'5px'}
+          >
+            Result for: {searchValue}
+          </Typography>
+          {stagesData === undefined ? (
+            <Typography
+              style={{ fontWeight: 600, fontSize: 14 }}
+              color="white"
+              gutterBottom
+              position="relative"
+              backgroundColor="#3f3e3e54"
+              width={'max-content'}
+              paddingX={'5px'}
+              borderRadius={'10px'}
+              textAlign={'center'}
+              marginX="auto"
+              // background="white"
+            >
+              no data available
+            </Typography>
+          ) : (
+            <div></div>
+          )}
           {/* for mobile */}
           <Box
+            paddingTop={'0px'}
+            // overflow={true}
+            // height={}
             sx={{ width: '100%' }}
+            // style={{ overflow: 'auto' }}
             display={{
               xs: 'contents',
               base: 'contents',
@@ -120,7 +161,8 @@ const CNStepper = () => {
             <Grid
               container
               rowSpacing={1}
-              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+              columnSpacing={{ xs: 2, sm: 2, md: 3 }}
+              // scroll
             >
               {stagesData &&
                 Object.entries(stagesData).map((item, value) => {
@@ -136,36 +178,42 @@ const CNStepper = () => {
                         id="imghgt"
                       >
                         <Box>
-                          <Paper style={{ position: 'relative ' }}>
+                          <Paper
+                          //  style={{ position: 'relative ' }}
+                          >
                             <Card
                               variant="outlined"
                               style={{
-                                height: '70px',
+                                height: '40px',
+                                alignContent: 'center',
+                                alignItems: 'start',
                                 // paddingBottom: 24,
                                 // border: '2px',
                                 borderColor: '#FFD600',
                                 borderWidth: '2px',
-                                backgroundColor: '#FFF4BB',
+                                // backgroundColor: '#FFF4BB',
+                                background:
+                                  'linear-gradient(to right bottom, #5b6073, #5b607387)',
                                 // backgroundImage:
                                 //   'url(https://wptesting.thenwg.xyz/wp-content/uploads/2022/03/background-wave-red-blue.png), linear-gradient(45deg, #3ad11e42, transparent)',
-                                backgroundSize: 'cover',
+                                // backgroundSize: 'cover',
                               }}
                               onClick={() => {
                                 const slug =
                                   item[0] == 'fresh'
                                     ? `/booking/new-booking`
                                     : item[0] == 'v-assigned'
-                                    ? `/booking/vehicle-assignment/${cnNo}`
+                                    ? `/booking/vehicle-assignment/${searchValue}`
                                     : item[0] == 'loading'
                                     ? '/loading/bilty-generate'
                                     : item[0] == 'advance'
-                                    ? `/account/new-advance-payment/${cnNo}`
+                                    ? `/account/new-advance-payment/${searchValue}`
                                     : item[0] == 'unload'
-                                    ? `/account/unload-vehicle/${cnNo}`
+                                    ? `/account/unload-vehicle/${searchValue}`
                                     : item[0] == 'v-payment'
-                                    ? `/account/final-payment-list/${cnNo}`
+                                    ? `/account/final-payment-list/${searchValue}`
                                     : item[0] == 'c-payment'
-                                    ? `/account/pending-consignor-payment/${cnNo}`
+                                    ? `/account/pending-consignor-payment/${searchValue}`
                                     : '';
 
                                 if (procesingIndexForMobile == value) {
@@ -175,17 +223,32 @@ const CNStepper = () => {
                             >
                               <CardContent>
                                 <Box
-                                  height="60px"
-                                  width="80px"
-                                  style={{
-                                    position: 'absolute',
-                                    bottom: 0,
-                                    right: 5,
-
-                                    // transform: 'scaleX(1) scaleY(2)',
-                                  }}
+                                  display="flex"
+                                  justifyContent={'space-between'}
+                                  // paddingY="auto"
+                                  alignItems={'center'}
                                 >
+                                  <Typography
+                                    style={{ fontWeight: 500, fontSize: 8 }}
+                                    color="white"
+                                    // gutterBottom
+                                    // position="relative"
+                                    backgroundColor="#3f3e3e54"
+                                    width={'max-content'}
+                                    paddingX={'5px'}
+                                    borderRadius={'10px'}
+                                    textAlign="center"
+                                    // background="white"
+                                  >
+                                    {item[0].toLocaleUpperCase()}
+                                  </Typography>
+
                                   <Image
+                                    // height="10px"
+                                    // width="50px"
+                                    height="20px"
+                                    width="40px"
+                                    alignItems="center"
                                     src={
                                       item[1] == 'completed'
                                         ? verifyTruck
@@ -193,23 +256,10 @@ const CNStepper = () => {
                                         ? yelloTruk
                                         : disableTruck
                                     }
-                                    objectFit="cover"
+                                    objectFit="fill"
                                   ></Image>
                                 </Box>
 
-                                <Typography
-                                  style={{ fontWeight: 600, fontSize: 14 }}
-                                  color="white"
-                                  gutterBottom
-                                  position="relative"
-                                  backgroundColor="#3f3e3e54"
-                                  width={'max-content'}
-                                  paddingX={'5px'}
-                                  borderRadius={'10px'}
-                                  // background="white"
-                                >
-                                  {item[0].toLocaleUpperCase()}
-                                </Typography>
                                 {/* <Typography
                               style={{
                                 background: 'white',
@@ -236,6 +286,8 @@ const CNStepper = () => {
                 })}
             </Grid>
           </Box>
+          {/* for desktop */}
+
           <Box
             display={{
               xs: 'none',
@@ -284,17 +336,18 @@ const CNStepper = () => {
                           item[0] == 'fresh'
                             ? `/booking/new-booking`
                             : item[0] == 'v-assigned'
-                            ? `/booking/vehicle-assignment/${cnNo}`
+                            ? `/booking/vehicle-assignment/${searchValue}`
                             : item[0] == 'loading'
-                            ? '/loading/bilty-generate'
-                            : item[0] == 'advance'
-                            ? `/account/new-advance-payment/${cnNo}`
+                            ? `/loading/generate-new-bilty/${searchValue}`
+                            : // '/loading/bilty-generate'
+                            item[0] == 'advance'
+                            ? `/account/new-advance-payment/${searchValue}`
                             : item[0] == 'unload'
-                            ? `/account/unload-vehicle/${cnNo}`
+                            ? `/account/unload-vehicle/${cnsearchValueNo}`
                             : item[0] == 'v-payment'
-                            ? `/account/final-payment-list/${cnNo}`
+                            ? `/account/final-payment-list/${searchValue}`
                             : item[0] == 'c-payment'
-                            ? `/account/pending-consignor-payment/${cnNo}`
+                            ? `/account/pending-consignor-payment/${searchValue}`
                             : '';
 
                         if (procesingIndexForDeskTop == value) {
@@ -363,28 +416,8 @@ const CNStepper = () => {
                 );
               })}
           </Box>
-
-          {stagesData && Object.entries(stagesData).length < 1 ? (
-            <Typography
-              style={{ fontWeight: 600, fontSize: 14 }}
-              color="white"
-              gutterBottom
-              position="relative"
-              backgroundColor="#3f3e3e54"
-              width={'max-content'}
-              paddingX={'5px'}
-              borderRadius={'10px'}
-              // background="white"
-            >
-              no data available
-            </Typography>
-          ) : (
-            <div></div>
-          )}
         </Paper>
-      ) : (
-        <div></div>
-      )}
+      }
     </Box>
   );
 };

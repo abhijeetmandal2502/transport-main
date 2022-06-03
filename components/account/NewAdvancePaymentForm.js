@@ -58,7 +58,6 @@ const NewAdvancePaymentForm = (props) => {
   const petrolPumpDetails = [];
   const [petrolPumpState, setPetrolPumpState] = useState('');
 
-
   if (petrolPumpData.length > 0) {
     petrolPumpData.map((petrol) => {
       petrolPumpDetails.push({ name: petrol.pump_name, id: petrol.pump_id });
@@ -68,16 +67,20 @@ const NewAdvancePaymentForm = (props) => {
   const { data: session } = useSession();
   const token = session.user.access_token;
 
-  const { register, resetField, formState: { errors }, handleSubmit } = useForm();
+  const {
+    register,
+    resetField,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [modalData, setModalData] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState('');
-  const [showButton, setShowButton] = useState(true)
+  const [showButton, setShowButton] = useState(true);
 
   const onSubmit = async (data) => {
-
     setFormData({
       lr_no: lrNo,
       pump_name: petrolPumpState,
@@ -108,7 +111,7 @@ const NewAdvancePaymentForm = (props) => {
 
   const submitForm = async () => {
     setOpen(false);
-    // 
+    //
 
     const res = await fetch(`${process.env.apiUrl}/advance-payment`, {
       method: 'POST',
@@ -122,13 +125,13 @@ const NewAdvancePaymentForm = (props) => {
 
     const result = await res.json();
 
-
     if (result.status === 'success') {
       enqueueSnackbar(result.message, {
         variant: 'success',
         autoHideDuration: 2000,
       });
-      router.push('/account/advance-payment');
+      // router.push('/account/advance-payment');
+      router.push(`/account/unload-vehicle/${lrNo}`);
     } else {
       enqueueSnackbar(result.errors, {
         variant: 'error',
@@ -136,20 +139,18 @@ const NewAdvancePaymentForm = (props) => {
       });
     }
 
-    // 
+    //
   };
 
   const checkBalance = () => {
     // console.log(pPrice + ' ' + typeof cPrice)
-    if ((parseFloat(pPrice) + parseFloat(cPrice)) > parseFloat(price)) {
-      setShowButton(!showButton)
-      alert(`Estimated Amount is ${price} that is exceeded`)
+    if (parseFloat(pPrice) + parseFloat(cPrice) > parseFloat(price)) {
+      setShowButton(!showButton);
+      alert(`Estimated Amount is ${price} that is exceeded`);
+    } else {
+      setShowButton(true);
     }
-    else {
-      setShowButton(true)
-    }
-  }
-
+  };
 
   // end of form
   return (
@@ -213,14 +214,17 @@ const NewAdvancePaymentForm = (props) => {
                     paddingBottom: 16,
                   }}
                 >
-                  <Box style={{
-                    marginBottom: 8,
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}>
-                    <Typography style={{ fontWeight: 700, color: 'darkred' }} >Estimeted Price - {price}</Typography>
-
+                  <Box
+                    style={{
+                      marginBottom: 8,
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Typography style={{ fontWeight: 700, color: 'darkred' }}>
+                      Estimated Price - {price}
+                    </Typography>
                   </Box>
                   <Box
                     style={{
@@ -325,11 +329,10 @@ const NewAdvancePaymentForm = (props) => {
                           onChange={(event) => {
                             event.target.value < 0
                               ? (event.target.value = 0)
-                              : event.target.value
-                            setPprice(event.target.value)
-                            checkBalance()
-                          }
-                          }
+                              : event.target.value;
+                            setPprice(event.target.value);
+                            checkBalance();
+                          }}
                           style={{
                             width: '-webkit-fill-available',
                             paddingLeft: 5,
@@ -402,7 +405,7 @@ const NewAdvancePaymentForm = (props) => {
                             return data.name;
                           })}
                           onChange={(event, value) => {
-                            // 
+                            //
                             for (var i = 0; i < petrolPumpDetails.length; i++) {
                               if (value === petrolPumpDetails[i].name) {
                                 setPetrolPumpState(petrolPumpDetails[i].id);
@@ -520,11 +523,10 @@ const NewAdvancePaymentForm = (props) => {
                           onChange={(event) => {
                             event.target.value < 0
                               ? (event.target.value = 0)
-                              : event.target.value
-                            setCprice(event.target.value)
-                            checkBalance()
-                          }
-                          }
+                              : event.target.value;
+                            setCprice(event.target.value);
+                            checkBalance();
+                          }}
                           style={{
                             width: '-webkit-fill-available',
                             paddingLeft: 5,
@@ -597,7 +599,6 @@ const NewAdvancePaymentForm = (props) => {
                           className="autocomp1"
                           id="combo-box-demo"
                           onChange={(event, value) => {
-
                             if (value !== null) {
                               if (value.label === 'Cheque') {
                                 setPaymentChequeEnable(true);
@@ -717,17 +718,16 @@ const NewAdvancePaymentForm = (props) => {
                     display: 'flex',
                     justifyContent: 'center',
                   }}
-                >{
-                    showButton && <Button
+                >
+                  {showButton && (
+                    <Button
                       variant="outlined"
                       type="submit"
                       style={{ background: '#28a745', color: 'white' }}
-
                     >
                       Confirmed
                     </Button>
-                  }
-
+                  )}
                 </Box>
               </Paper>
             </Container>

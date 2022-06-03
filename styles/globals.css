@@ -208,3 +208,20 @@ padding: 0px !important;
  
 
 }
+
+.layoutContainerForDesk{
+      margin-top: 10% !important;
+      margin-left: 3% !important;
+
+}
+
+.layoutContainerForTab {
+  margin-top: 10% !important;
+  margin-left: 3% !important;
+
+}
+.layoutContainerForMob {
+  margin-top: 40% !important;
+  margin-left: 3% !important;
+
+}

@@ -59,13 +59,17 @@ const VehicleAssignment = ({ data }) => {
       renderCell: (params, i) => {
         var slug = params.row.cn;
         return (
-          <Link href={`/booking/vehicle-assignment/${slug}`}  >
-            <Button variant="contained" size="small" style={{ fontSize: '9px', fontWeight: 700 }}>
+          <Link href={`/booking/vehicle-assignment/${slug}`}>
+            <Button
+              variant="contained"
+              size="small"
+              style={{ fontSize: '9px', fontWeight: 700 }}
+            >
               Vehicle Assign
             </Button>
           </Link>
         );
-      }
+      },
     },
   ];
 
@@ -83,9 +87,8 @@ const VehicleAssignment = ({ data }) => {
     i++;
   });
 
-
   return (
-    <>
+    <Box>
       <BreadCrumb />
 
       <Container
@@ -104,9 +107,8 @@ const VehicleAssignment = ({ data }) => {
         </Grid>
 
         <DataGridComponent columns={columns} rows={rows} />
-
       </Container>
-    </>
+    </Box>
   );
 };
 
@@ -139,4 +141,3 @@ export async function getServerSideProps(ctx) {
   // Pass data to the page via props
   return { props: { data } };
 }
-

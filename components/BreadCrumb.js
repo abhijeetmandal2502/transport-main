@@ -43,11 +43,11 @@ const BreadCrumb = (props) => {
           alignItems: 'center',
           paddingLeft: 0,
           paddingRight: 0,
-          marginTop: '10px',
-          marginBottom: '10px',
+          marginTop: 5,
+          marginBottom: 5,
         }}
       >
-        <Typography variant="p" component="p" marginTop={'20px'}>
+        <Typography variant="p" component="p">
           {breadCrumbArr.map((item, key) => {
             if (item === '') {
               var name = 'home';

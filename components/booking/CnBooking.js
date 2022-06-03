@@ -45,7 +45,7 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
 
 const CNBooking = (props) => {
-  const { rows, setSlug } = props;
+  const { rows } = props;
 
   const [filteredRows, setFilteredRows] = useState(rows);
   const [checked, setChecked] = useState([]);
@@ -99,6 +99,8 @@ const CNBooking = (props) => {
       renderCell: (params) => {
         const index = params.id - 1;
 
+        console.log('checkindex', finalRows[index].status);
+
         let slug;
         let title;
         switch (finalRows[index].status) {
@@ -106,7 +108,7 @@ const CNBooking = (props) => {
             title = 'Vehicle Assign';
             slug = '/booking/vehicle-assignment';
             break;
-          case 'vehicle-assign':
+          case 'vehicle-assigned':
             title = 'Generate New Bilty';
             slug = `/loading/generated-new-bilty/${finalRows[index].lr_no}`;
             break;
@@ -124,6 +126,8 @@ const CNBooking = (props) => {
             break;
 
           default:
+            title = 'Unknown';
+            slug = '/';
             break;
         }
 
@@ -132,6 +136,7 @@ const CNBooking = (props) => {
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Link href="/loading/generated-bilty">
                 <Button
+                  style={{ textTransform: 'none', padding: '2px 5px' }}
                   variant="contained"
                   size="small"
                   // startIcon={<EditIcon />}
@@ -143,14 +148,17 @@ const CNBooking = (props) => {
               </Link>
 
               <Link href={`/account/unload-vehicle/${finalRows[index].lr_no}`}>
-                <Button
-                  variant="contained"
-                  size="small"
-                  // startIcon={<EditIcon />}
-                  color="secondary"
-                >
-                  Unload Vehicle
-                </Button>
+                <Box>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    // startIcon={<EditIcon />}
+                    color="secondary"
+                    style={{ textTransform: 'none', padding: '2px 5px' }}
+                  >
+                    Unload Vehicle
+                  </Button>
+                </Box>
               </Link>
             </Box>
           );
@@ -160,6 +168,7 @@ const CNBooking = (props) => {
               <Button
                 variant="contained"
                 size="small"
+                style={{ textTransform: 'none', padding: '2px 5px' }}
                 // startIcon={<EditIcon />}
                 color="secondary"
               >

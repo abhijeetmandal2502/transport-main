@@ -35,10 +35,11 @@ import menuImage from '../../public/img/header.png';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Link from 'next/link';
 // import { useDebounce } from 'use-debounce';
-import { textState } from './../dashboard/CNStepper';
+import CNStepper, { textState } from './../dashboard/CNStepper';
 import Image from 'next/image';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CircleIcon from '@mui/icons-material/Circle';
 import {
   RecoilRoot,
   atom,
@@ -68,6 +69,29 @@ import { fontSize } from '@mui/system';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
+import InputAdornment from '@mui/material/InputAdornment';
+import Modal from '@mui/material/Modal';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useRouter } from 'next/router';
+
+const style = {
+  position: 'relative',
+  // scroll:
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '90%',
+  // 'max-contents',
+  bgcolor: 'background.paper',
+  // border: '2px solid #000',
+  boxShadow: 24,
+  overflow: 'auto',
+  height: {
+    // xs: '100%',
+    // md: ' max-contents',
+  },
+  // p: 4,
+};
 
 const Navbar = (props) => {
   const classes = useStyles();
@@ -80,6 +104,13 @@ const Navbar = (props) => {
   const [openMobNav, setOpenMobNav] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [text, setText] = useRecoilState(textState);
+
+  const [searchModalOpen, setSearchModalOpen] = React.useState(false);
+  const handleSearchModalOpen = () => setSearchModalOpen(true);
+  const handleSearchModalClose = () => setSearchModalOpen(false);
+  const rootRef = React.useRef(null);
+  const router = useRouter();
+
   const token = session && session.user.access_token;
 
   //   this section is for creating menu
@@ -134,8 +165,29 @@ const Navbar = (props) => {
   const handleClick = () => {
     setAccordion(!accordion);
   };
+  const logOutMethod = async () => {
+    console.log('logoutcall', 1);
+    const res = await fetch(`${process.env.apiUrl}/logout`, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+      method: 'POST',
+    })
+      .then((value) => {
+        console.log('logoutcall', 2);
+        router.push('/login', {
+          pathname: '/login',
+        });
+        signOut();
+      })
+      .catch((error) => {
+        console.log('logoutcall 3', error);
+      });
+  };
 
-  console.log('checkmenusaurabh', menuArr);
+  // console.log('checkmenusaurabh', menuArr);
 
   return (
     <div>
@@ -156,6 +208,7 @@ const Navbar = (props) => {
           >
             <Box
               // justifyContent={'space-between'
+              alignItems={'center'}
               sx={{
                 justifyContent: {
                   xs: 'space-between',
@@ -171,7 +224,11 @@ const Navbar = (props) => {
                 aria-label="open drawer"
                 onClick={handleDrawerOpenForMob}
                 edge="start"
-                sx={{ mr: 2, ...(openDeskTopNav && { display: 'none' }) }}
+                sx={{
+                  color: 'white',
+                  mr: 2,
+                  ...(openDeskTopNav && { display: 'none' }),
+                }}
               >
                 <MenuIcon />
               </IconButton>
@@ -185,10 +242,11 @@ const Navbar = (props) => {
               <Box>
                 <AccountCircle
                   sx={{
-                    color: 'rgba(0, 0, 0, 0.6)',
-                    width: '40px',
-                    height: '40px',
-                    marginLeft: '20px',
+                    // color: 'rgba(0, 0, 0, 0.6)',
+                    color: 'white',
+                    width: '30px',
+                    height: '30px',
+                    // marginLeft: '20px',
                     display: { xs: 'block', sm: 'none', md: 'none' },
                   }}
                 />
@@ -209,21 +267,49 @@ const Navbar = (props) => {
               }}
             >
               <Search>
-                <SearchIconWrapper>
+                {/* <SearchIconWrapper>
                   <SearchIcon sx={{ color: 'rgba(0, 0, 0, 0.6)' }} />
-                </SearchIconWrapper>
+                </SearchIconWrapper> */}
                 <StyledInputBase
-                  placeholder="Search…"
+                  placeholder="Search CN status…"
                   color="orange"
                   inputProps={{ 'aria-label': 'search' }}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onSubmit={(e) => {
                     console.log('checksubmit');
                   }}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        // onClick={handleClickShowPassword}
+                        // onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        <SearchIcon
+                          sx={{
+                            color: 'rgba(0, 0, 0, 0.6)',
+                            marginRight: '20px',
+                          }}
+                          onClick={() => {
+                            if (
+                              searchTerm != null &&
+                              searchTerm != undefined &&
+                              searchTerm != ''
+                            ) {
+                              setText(searchTerm);
+                              handleSearchModalOpen();
+                            }
+                            // console.log('checkfirst');
+                          }}
+                        />
+                      </IconButton>
+                    </InputAdornment>
+                  }
                 />
               </Search>
               <Box width={'10px'}></Box>
-              <Button
+              {/* <Button
                 // marginLeft={'5px'}
                 // paddingLeft={'10px'}
                 onClick={() => {
@@ -239,13 +325,14 @@ const Navbar = (props) => {
                 // autoFocus
               >
                 Submit
-              </Button>
+              </Button> */}
 
               <AccountCircle
                 sx={{
-                  color: 'rgba(0, 0, 0, 0.6)',
-                  width: '40px',
-                  height: '40px',
+                  // color: 'rgba(0, 0, 0, 0.6)',
+                  color: 'white',
+                  width: '30px',
+                  height: '30px',
                   marginLeft: '20px',
                   display: { xs: 'none', sm: 'block', md: 'block' },
                 }}
@@ -266,7 +353,7 @@ const Navbar = (props) => {
         width="50px"
       >
         <MobileDrawerHeader>
-          <IconButton onClick={handleDrawerCloseForMob}>
+          <IconButton onClick={handleDrawerCloseForMob} sx={{ color: 'white' }}>
             {theme.direction === 'ltr' ? (
               <ChevronLeftIcon />
             ) : (
@@ -359,7 +446,7 @@ const Navbar = (props) => {
                               ':hover': { background: '#7D86A5' },
                               borderRadius: '0px 45px 47.5px 0px',
                             }}
-                            onClick={handleDrawerCloseForDesk}
+                            onClick={handleDrawerCloseForMob}
                           >
                             {/* <ListItemIcon sx={{ color: '#FFD600' }}>
                               <StarBorder />
@@ -390,6 +477,26 @@ const Navbar = (props) => {
               </>
             );
           })}
+          <ListItemButton
+            onClick={() => {
+              logOutMethod();
+              handleDrawerCloseForMob();
+            }}
+            sx={{
+              ':hover': { background: '#7D86A5' },
+              borderRadius: '0px 45px 47.5px 0px',
+            }}
+          >
+            <ListItemText
+              // primary={menu.title.toUpperCase()}
+              secondary={'LOGOUT'}
+              secondaryTypographyProps={{
+                color: 'white',
+                fontSize: '10px ',
+              }}
+              sx={{ color: 'white', fontSize: '10px !important' }}
+            />
+          </ListItemButton>
         </List>
       </Drawer>
 
@@ -436,6 +543,8 @@ const Navbar = (props) => {
               <>
                 <ListItemButton
                   onClick={() => {
+                    handleDrawerOpenForDesk();
+
                     if (menu.items.length > 0) {
                       //   handleClick();
                       // menu.items;
@@ -494,17 +603,24 @@ const Navbar = (props) => {
                       return (
                         <Link href={subMenu.slug}>
                           <ListItemButton
-                            className="hoversidebar"
+                            // className="hoversidebar"
                             sx={{
-                              pl: 4,
+                              // width: '100px',
+                              pl: 3,
                               ':hover': { background: '#7D86A5' },
-                              borderRadius: '0px 45px 47.5px 0px',
+                              // borderRadius: '0px 45px 47.5px 0px',
                             }}
                             onClick={handleDrawerCloseForDesk}
                           >
-                            {/* <ListItemIcon sx={{ color: '#FFD600' }}>
-                              <StarBorder />
-                            </ListItemIcon> */}
+                            {/* <ListItemIcon sx={{ color: '#FFD600' }}> */}
+                            <CircleIcon
+                              style={{
+                                color: '#FFD600',
+                                fontSize: '8px',
+                                marginRight: '8px',
+                              }}
+                            />
+                            {/* </ListItemIcon> */}
                             {/* <Typography
                               fontSize="10px"
                               sx={{
@@ -528,8 +644,61 @@ const Navbar = (props) => {
               </>
             );
           })}
+
+          <ListItemButton
+            onClick={() => {
+              logOutMethod();
+            }}
+            className="hoversidebar"
+            sx={{
+              ':hover': { background: '#7D86A5' },
+              borderRadius: '0px 45px 47.5px 0px',
+            }}
+          >
+            <ListItemIcon sx={{ color: '#FFD600' }}>
+              <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText
+              // primary={menu.title.toUpperCase()}
+              secondary={'LOGOUT'}
+              secondaryTypographyProps={{ color: 'white' }}
+              sx={{ color: 'white', fontSize: '10px !important' }}
+            />
+            {/* {menu.items == accordion ? (
+              <ExpandLess sx={{ color: '#FFD600' }} />
+            ) : (
+              <ExpandMore sx={{ color: '#FFD600' }} />
+            )} */}
+          </ListItemButton>
         </List>
       </DesktopDrawer>
+
+      {/* searchModal */}
+
+      <Box>
+        <Modal
+          style={{
+            position: 'absolute',
+            top: '10%',
+            left: '10%',
+            overflow: 'scroll',
+          }}
+          // borderRadius={'50px'}
+          // disableScrollLock={false}
+          // disablePortal
+          // disableEnforceFocus
+          // disableAutoFocus
+          open={searchModalOpen}
+          onClose={handleSearchModalClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          // container={() => rootRef.current}
+        >
+          <Box sx={style}>
+            <CNStepper />
+          </Box>
+        </Modal>
+      </Box>
     </div>
   );
 };

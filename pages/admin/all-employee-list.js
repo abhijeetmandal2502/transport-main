@@ -11,7 +11,6 @@ import { useSession, signIn, signOut, getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 const AllEmployeeList = ({ empData }) => {
-
   const [page, setPage] = useState(2);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -37,7 +36,6 @@ const AllEmployeeList = ({ empData }) => {
     // ' View Bilty ',
   ];
 
-
   const [rowsData, setRowsData] = useState(empData);
   const rows = [];
 
@@ -45,8 +43,7 @@ const AllEmployeeList = ({ empData }) => {
   if (rowsData !== null && rowsData !== undefined) {
     if (rowsData.length > 0) {
       rowsData.map((item, key) => {
-
-        // 
+        //
         // setBookingNo(item.lr_id);
         rows.push([
           // i + '.',
@@ -56,7 +53,6 @@ const AllEmployeeList = ({ empData }) => {
           item.mobile,
           item.email,
           <UpdateButton slug={item.emp_id} key={key} />,
-
         ]);
         i++;
       });
@@ -81,7 +77,7 @@ const AllEmployeeList = ({ empData }) => {
         .toLowerCase()
         .includes(
           searchValue.toLowerCase() ||
-          row.driver_name.toLowerCase().includes(searchValue.toLowerCase())
+            row.driver_name.toLowerCase().includes(searchValue.toLowerCase())
         );
     });
 
@@ -97,7 +93,7 @@ const AllEmployeeList = ({ empData }) => {
   };
   return (
     <div>
-      {/* <BreadCrumb /> */}
+      <BreadCrumb />
       <Grid
         container
         style={{
@@ -178,7 +174,6 @@ export async function getServerSideProps(ctx) {
         var empData = [];
       }
     } catch (err) {
-
       var empData = [];
     }
   } else {

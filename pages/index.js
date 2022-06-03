@@ -198,7 +198,7 @@ export default function Home2({ data }) {
         </List>
       </Drawer>
 
-      <CNStepper />
+      {/* <CNStepper /> */}
 
       <Box
         sx={{
@@ -275,7 +275,7 @@ export default function Home2({ data }) {
                       ? `/account/final-payment-list`
                       : key == 'c-payment'
                       ? `/account/pending-consignor-payment`
-                      : '';
+                      : '/booking/lr-booking';
                   router.push(slug);
                 }}
               >
@@ -290,14 +290,17 @@ export default function Home2({ data }) {
                           // border: '2px',
                           borderColor: '#FFD600',
                           borderWidth: '2px',
-                          backgroundColor: '#FFF4BB',
+                          // backgroundColor: '#5b6073',
+                          background:
+                            'linear-gradient(to right bottom, #5b6073, #5b607387)',
+                          // '#FFF4BB',
                           // backgroundImage:
                           //   'url(https://wptesting.thenwg.xyz/wp-content/uploads/2022/03/background-wave-red-blue.png), linear-gradient(45deg, #3ad11e42, transparent)',
                           backgroundSize: 'cover',
                         }}
                       >
                         <CardContent>
-                          <Box
+                          {/* <Box
                             height="70px"
                             width="80px"
                             style={{
@@ -309,7 +312,7 @@ export default function Home2({ data }) {
                             }}
                           >
                             <Image src={shipTruck} objectFit="cover"></Image>
-                          </Box>
+                          </Box> */}
 
                           <Typography
                             style={{ fontWeight: 600, fontSize: 14 }}
@@ -373,6 +376,7 @@ export default function Home2({ data }) {
         <Grid container spacing={2}>
           {vehicleArr &&
             Object.keys(vehicleArr).map((key, item) => {
+              console.log('checkitemss', key);
               return (
                 <Grid
                   item
@@ -383,7 +387,43 @@ export default function Home2({ data }) {
                   sx={{ cursor: 'pointer' }}
                 >
                   <motion.div whileHover={{ scale: 1.07 }} id="imghgt">
-                    <Box>
+                    <Box
+                      onClick={() => {
+                        // /settings/vehicle-register
+
+                        if (key == 'total_vehicles') {
+                          router.push(
+                            {
+                              pathname: '/settings/vehicle-register',
+                              query: {
+                                vhType: 'total',
+                              },
+                            },
+                            '/settings/vehicle-register'
+                          );
+                        } else if (key == 'owned') {
+                          router.push(
+                            {
+                              pathname: '/settings/vehicle-register',
+                              query: {
+                                vhType: 'owned',
+                              },
+                            },
+                            '/settings/vehicle-register'
+                          );
+                        } else if (key == 'third-party') {
+                          router.push(
+                            {
+                              pathname: '/settings/vehicle-register',
+                              query: {
+                                vhType: 'third-party',
+                              },
+                            },
+                            '/settings/vehicle-register'
+                          );
+                        }
+                      }}
+                    >
                       <Paper style={{ position: 'relative ' }}>
                         <Card
                           variant="outlined"
@@ -393,14 +433,17 @@ export default function Home2({ data }) {
                             // border: '2px',
                             borderColor: '#FFD600',
                             borderWidth: '2px',
-                            backgroundColor: '#FFF4BB',
+                            // backgroundColor: '#FFF4BB',
+                            // backgroundColor: '#5b6073',
+                            background:
+                              'linear-gradient(to right bottom, #5b6073, #5b607387)',
                             // backgroundImage:
                             //   'url(https://wptesting.thenwg.xyz/wp-content/uploads/2022/03/background-wave-red-blue.png), linear-gradient(45deg, #3ad11e42, transparent)',
                             backgroundSize: 'cover',
                           }}
                         >
                           <CardContent>
-                            <Box
+                            {/* <Box
                               height="70px"
                               width="80px"
                               style={{
@@ -412,7 +455,7 @@ export default function Home2({ data }) {
                               }}
                             >
                               <Image src={shipTruck} objectFit="cover"></Image>
-                            </Box>
+                            </Box> */}
 
                             <Typography
                               style={{ fontWeight: 600, fontSize: 14 }}
@@ -493,7 +536,9 @@ export default function Home2({ data }) {
             })}
         </Grid>
       </Paper>
-      <Paper
+      {/* employee */}
+
+      {/* <Paper
         style={{
           padding: 20,
           marginBottom: 30,
@@ -501,8 +546,7 @@ export default function Home2({ data }) {
           boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
         }}
       >
-        {' '}
-        {/* Vehicle details */}
+       
         <Grid container style={{ marginBottom: 15 }}>
           <Grid item xs={12} sm={6}>
             <Typography
@@ -529,14 +573,18 @@ export default function Home2({ data }) {
                           // border: '2px',
                           borderColor: '#FFD600',
                           borderWidth: '2px',
-                          backgroundColor: '#FFF4BB',
+                          // backgroundColor: '#FFF4BB',
+                          // backgroundColor: '#5b6073',
+                          background:
+                            'linear-gradient(to right bottom, #5b6073, #5b607387)',
+
                           // backgroundImage:
                           //   'url(https://wptesting.thenwg.xyz/wp-content/uploads/2022/03/background-wave-red-blue.png), linear-gradient(45deg, #3ad11e42, transparent)',
                           backgroundSize: 'cover',
                         }}
                       >
                         <CardContent>
-                          <Box
+                          {/* <Box
                             height="70px"
                             width="80px"
                             style={{
@@ -548,7 +596,7 @@ export default function Home2({ data }) {
                             }}
                           >
                             <Image src={shipTruck} objectFit="cover"></Image>
-                          </Box>
+                          </Box> 
 
                           <Typography
                             style={{ fontWeight: 600, fontSize: 14 }}
@@ -621,14 +669,14 @@ export default function Home2({ data }) {
                           </Typography>
                         </CardContent>
                       </Card>
-                    </Paper> */}
+                    </Paper> 
                   </Box>
                 </motion.div>
               </Grid>
             );
           })}
         </Grid>
-      </Paper>
+      </Paper> */}
     </Box>
   );
 }

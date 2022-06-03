@@ -4,6 +4,7 @@ import VehicleAssign from '../../../components/booking/VehicleAssign';
 import BreadCrumb from '../../../components/BreadCrumb';
 import { useSession, getSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
+import { Box, Grid, Paper } from '@material-ui/core';
 
 const VehicleAsgn = ({ vehicleInfo }) => {
   const router = useRouter();
@@ -35,10 +36,10 @@ const VehicleAsgn = ({ vehicleInfo }) => {
   };
 
   return (
-    <>
+    <Box marginTop={{ xs: '40%', sm: '2px', md: '5%' }}>
       <BreadCrumb id={lrId} />
       <VehicleAssign id={lrId} lrinfo={result} vehicleInfo={vehicleInfo} />
-    </>
+    </Box>
   );
 };
 

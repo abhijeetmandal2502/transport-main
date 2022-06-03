@@ -47,37 +47,38 @@ const CnDelivered = (props) => {
   const [formData, setFormData] = useState('');
 
   const onSubmit = async (data) => {
-
     var damage_amount = 0;
     var damage_narration = '';
     var short_amount = 0;
     var short_narration = '';
     var load_amount = 0;
     var load_narration = '';
-    if ((data.damage_amount == undefined || data.damage_amount == '') && (data.damage_narration == undefined || data.damage_narration == '')) {
-
+    if (
+      (data.damage_amount == undefined || data.damage_amount == '') &&
+      (data.damage_narration == undefined || data.damage_narration == '')
+    ) {
     } else {
       damage_amount = data.damage_amount;
       damage_narration = data.damage_narration;
-
     }
 
-    if ((data.short_amount == undefined || data.short_amount == '') && (data.short_narration == undefined || data.short_narration == '')) {
-
-    }
-    else {
+    if (
+      (data.short_amount == undefined || data.short_amount == '') &&
+      (data.short_narration == undefined || data.short_narration == '')
+    ) {
+    } else {
       short_amount = data.short_amount;
       short_narration = data.short_narration;
     }
 
-    if ((data.load_amount == undefined || data.load_amount == '') && (data.load_narration == undefined || data.load_narration == '')) {
-
-    }
-    else {
+    if (
+      (data.load_amount == undefined || data.load_amount == '') &&
+      (data.load_narration == undefined || data.load_narration == '')
+    ) {
+    } else {
       load_amount = data.load_amount;
       load_narration = data.load_narration;
     }
-
 
     setFormData({
       lr_no: lrNo,
@@ -106,7 +107,6 @@ const CnDelivered = (props) => {
         },
       ]),
     });
-
 
     setModalData([
       { fieldName: 'Booking No', data: lrNo },
@@ -143,14 +143,15 @@ const CnDelivered = (props) => {
 
     const result = await res.json();
 
-
     if (result.status === 'success') {
       var message = result.message;
       enqueueSnackbar(message, {
         variant: 'success',
         autoHideDuration: 2000,
       });
-      router.push('/account/unload-vehicle');
+      // router.push('/account/unload-vehicle');
+
+      router.push(`/account/final-payment-list/${lrNo}`);
     } else {
       var message = result.errors;
       enqueueSnackbar(message, {
@@ -160,31 +161,33 @@ const CnDelivered = (props) => {
     }
   };
 
-  // get total loaded case from useEffect 
+  // get total loaded case from useEffect
   useEffect(() => {
-    totalLoadedCase()
-  }, [lrNo])
+    totalLoadedCase();
+  }, [lrNo]);
 
   const totalLoadedCase = async () => {
-    const req = await fetch(`${process.env.apiUrl}/total-loaded-cases/${lrNo}`, {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-    });
+    const req = await fetch(
+      `${process.env.apiUrl}/total-loaded-cases/${lrNo}`,
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
 
     const res = await req.json();
 
     if (res.status === 'success') {
-      setLoadedCase(res.totalPackages)
+      setLoadedCase(res.totalPackages);
     }
-  }
+  };
 
   const updateLoadCase = (value) => {
-    setLoadedCase(value)
-  }
-
+    setLoadedCase(value);
+  };
 
   return (
     <>

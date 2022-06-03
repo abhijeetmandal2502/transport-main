@@ -85,7 +85,6 @@ const FinalPayOut = (props) => {
       };
     }
 
-
     // api call for payout final payment
 
     const req = await fetch(`${process.env.apiUrl}/final-vechicle-payment`, {
@@ -107,7 +106,8 @@ const FinalPayOut = (props) => {
         autoHideDuration: 2000,
       });
 
-      router.push('/account/final-payment-list');
+      // router.push('/account/final-payment-list');
+      router.push(`/account/pending-consignor-payment/${lrNo}`);
     } else {
       var data = [];
 

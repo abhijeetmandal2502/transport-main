@@ -13,11 +13,11 @@ const LRBooking = ({ data, totalCount }) => {
   const [rows, setRows] = useState(data);
   const [slug, setSlug] = useState('');
 
-  useEffect(() => {
-    if (slug !== '') {
-      fetchData(slug);
-    }
-  }, [slug]);
+  // useEffect(() => {
+  //   if (slug !== '') {
+  //     fetchData(slug);
+  //   }
+  // }, [slug]);
 
   const fetchData = async (newSlug) => {
     const req = await fetch(`${process.env.apiUrl}/lr-bookings${newSlug}`, {
@@ -38,10 +38,13 @@ const LRBooking = ({ data, totalCount }) => {
     setRows(data);
   };
 
-  // console.log('check booking row', rows);
+  console.log('check booking row', rows);
 
   return (
-    <Box paddingLeft={{ xs: '0px', md: '20px' }}>
+    <Box
+    // paddingLeft={{ xs: '0px', md: '20px' }}
+    // marginTop={{ xs: '40%', sm: '0px', md: '5%' }}
+    >
       <Container
         style={{
           // alignItems: 'center',
@@ -53,7 +56,7 @@ const LRBooking = ({ data, totalCount }) => {
         <BreadCrumb />
       </Container>
 
-      <CNBooking rows={rows} setSlug={setSlug} />
+      <CNBooking rows={rows} />
     </Box>
   );
 };
