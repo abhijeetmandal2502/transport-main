@@ -176,6 +176,8 @@ const AdvancePaymentTable = (props) => {
       });
     }
   }
+
+  var totalPage = Math.ceil(rows.length / 10)
   //  end of rows
 
   const handleChangePage = (event, newPage) => {
@@ -223,7 +225,7 @@ const AdvancePaymentTable = (props) => {
             rows={rows}
             column={columns}
             searchString={searchString}
-            totalPage={5}
+            totalPages={5}
             searchName={'Search By Name'}
           />{' '}
           <Dialog
